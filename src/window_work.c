@@ -2,7 +2,7 @@
 
 int		deal_hook(int key, t_rtv *param)
 {
-	if (key == 53)
+	if (key == 53 || key == 65307)
 	{
 		write(1, "EXIT\n", 5);
 		exit (0);

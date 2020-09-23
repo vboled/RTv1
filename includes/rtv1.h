@@ -16,8 +16,15 @@
 # include <mlx.h>
 # include <math.h>
 # include <limits.h>
-# define WIDTH 1920
-# define HEIGHT 1080
+# define WIDTH 600
+# define HEIGHT 600
+
+typedef struct		s_vec
+{
+	double			x;
+	double			y;
+	double			z;
+}					t_vec;
 
 typedef struct		s_light
 {

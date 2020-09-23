@@ -2,4 +2,4 @@ camera: 0 0 0
 light: 4 5 6
 sphere: 0 -1 3 1 1 1 1 16711680 // x y z scale tilt_x tilt_y tilt_z color
 sphere: 2 0 4 1 2 2 2 3413424
-sphere: 2 2 2 2 2 2 2 3922432
+sphere: -2 0 4 1 2 2 2 3922432
