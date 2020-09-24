@@ -17,17 +17,24 @@ void	printScene(t_rtv *scene)
 {
 	printf("camera:\npos_x = %f, pos_y = %f, pos_z = %f\n", scene->camera.x, scene->camera.y, scene->camera.z);
 	printf("tilt_x = %f, tilt_y = %f, tilt_z = %f\n", scene->camera.tilt_x, scene->camera.tilt_y, scene->camera.tilt_z);
-	printf("\nlight:\npos_x = %f, pos_y = %f, pos_z = %f\n", scene->light.x, scene->light.y, scene->light.z);
 	t_obj *head;
 	head = scene->objects;
-	while (head)
+	// while (head)
+	// {
+	// 	if (head->type == 1)
+	// 		printf("sphere:");
+	// 	printf("\npos_x = %f, pos_y = %f, pos_z = %f\n", head->x, head->y, head->z);
+	// 	printf("scale = %f, tilt_x = %f, tilt_y = %f, tilt_z = %f\n", head->scale, head->tilt_x, head->tilt_y, head->tilt_z);
+	// 	printf("color = %d\n", head->color);
+	// 	head = head->next;
+	// }
+	printf("LIGHTS:\n");
+	t_light *headl;
+	headl = scene->lights;
+	while (headl)
 	{
-		if (head->type == 1)
-			printf("sphere:");
-		printf("\npos_x = %f, pos_y = %f, pos_z = %f\n", head->x, head->y, head->z);
-		printf("scale = %f, tilt_x = %f, tilt_y = %f, tilt_z = %f\n", head->scale, head->tilt_x, head->tilt_y, head->tilt_z);
-		printf("color = %d\n", head->color);
-		head = head->next;
+		printf("type: %f\n", headl->intens);
+		headl = headl->next;
 	}
 }
 

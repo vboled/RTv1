@@ -21,7 +21,7 @@ int		addObject(t_rtv *scene, char **param)
 	else if (!ft_strcmp(param[0], "sphere:"))
 		return (addObj(&(scene->objects), param, 1));
 	else if (!ft_strcmp(param[0], "light:"))
-		return (addLight(scene, param));
+		return (addLight(&(scene->lights), param));
 	return (0);
 }
 

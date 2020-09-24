@@ -23,16 +23,6 @@ int		addCamera(t_rtv *scene, char **param)
 	return (1);
 }
 
-int		addLight(t_rtv *scene, char **param)
-{
-	if (!param[3])
-		return (0);
-	scene->light.x = ft_atoi(param[1]);
-	scene->light.y = ft_atoi(param[2]);
-	scene->light.z = ft_atoi(param[3]);
-	return (1);
-}
-
 int		getSphereParam(t_obj *sphere, char **param)
 {
 	if (!param[8])
@@ -49,9 +39,9 @@ int		getSphereParam(t_obj *sphere, char **param)
 	return (1);
 }
 
-int		getObjParam(t_obj *sphere, char **param, int type)
+int		getObjParam(t_obj *obj, char **param, int type)
 {
-	if (type == 1 && !getSphereParam(sphere, param))
+	if (type == 1 && !getSphereParam(obj, param))
 		return (0);
 	return (1);
 }

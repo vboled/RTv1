@@ -31,6 +31,12 @@ typedef struct		s_light
 	double			x;
 	double			y;
 	double			z;
+	double			dirX;
+	double			dirY;
+	double			dirZ;
+	double			intens;
+	int				type;
+	struct s_light	*next;
 }					t_light;
 
 typedef struct      s_camera
@@ -54,7 +60,6 @@ typedef struct		s_obj
 	double			tilt_y;
 	double			tilt_z;
 	int				color;
-	struct s_obj	*head;
 	struct s_obj	*next;
 }					t_obj;
 
@@ -69,12 +74,12 @@ typedef struct		s_rtv
 	int				endian;
 	t_obj			*objects;
 	t_camera		camera;
-	t_light			light;
+	t_light			*lights;
 }					t_rtv;
 
 int					getData(char *filename, t_rtv *scene);
 int					addCamera(t_rtv *scene, char **param);
-int					addLight(t_rtv *scene, char **param);
+int					addLight(t_light **light, char **param);
 int					addObj(t_obj **obj, char **param, int type);
 int					deal_hook(int key, t_rtv *param);
 void				clear_window(t_rtv *frac);

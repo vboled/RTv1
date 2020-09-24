@@ -13,7 +13,8 @@ SRCS = main.c \
 	   fill_scene.c\
 	   add_obj.c\
 	   window_work.c\
-	   tracer.c
+	   tracer.c\
+	   add_light.c
 
 HEAD = -I$(INCDIR)
 
