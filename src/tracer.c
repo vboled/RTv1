@@ -92,11 +92,15 @@ double	computeIntens(t_rtv *rtv, t_vec p, t_vec n)
 			l.y = head->dirY;
 			l.z = head->dirZ;
 		}
-		n_dot_l = dot(&n, &p);
+		n_dot_l = dot(&n, &l);
 		if (n_dot_l > 0)
-			intens += head->intens * n_dot_l / vec_len(&n) / vec_len(&l);
+			intens += head->intens * n_dot_l / (vec_len(&n) * vec_len(&l));
 		head = head->next;
 	}
+	if (intens > 1.0)
+		intens = 1.0;
+	if (intens < 0)
+		intens = 0.0;
 	return (intens);
 }
 
@@ -150,7 +154,9 @@ int		traceRay(t_rtv *rtv, t_vec *d)
 		return (0xFFFFFF);
 	p = makeP(rtv, closest_t, d);
 	// return closest_obj->color;
-	return (change_intensity(closest_obj->color, computeIntens(rtv, p, makeN(&p, closest_obj))));
+	double in = computeIntens(rtv, p, makeN(&p, closest_obj));
+	printf("%f\n", in);
+	return (change_intensity(closest_obj->color, in));
 }
 
 void	vecInit(t_vec *d, int x, int y)
@@ -166,14 +172,6 @@ void	tracer(t_rtv *rtv)
 	int		j;
 	t_vec	D;
 
-	// double k = 0.0;
-	// t_obj *head = rtv->objects;
-	// while (head)
-	// {
-	// 	head->color = change_intensity(0xFF0000, k);
-	// 	head = head->next;
-	// 	k += 0.25;
-	// }
 	j = -WIDTH / 2;
 	while (++j < WIDTH / 2)
 	{

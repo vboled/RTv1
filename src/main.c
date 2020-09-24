@@ -19,15 +19,15 @@ void	printScene(t_rtv *scene)
 	printf("tilt_x = %f, tilt_y = %f, tilt_z = %f\n", scene->camera.tilt_x, scene->camera.tilt_y, scene->camera.tilt_z);
 	t_obj *head;
 	head = scene->objects;
-	// while (head)
-	// {
-	// 	if (head->type == 1)
-	// 		printf("sphere:");
-	// 	printf("\npos_x = %f, pos_y = %f, pos_z = %f\n", head->x, head->y, head->z);
-	// 	printf("scale = %f, tilt_x = %f, tilt_y = %f, tilt_z = %f\n", head->scale, head->tilt_x, head->tilt_y, head->tilt_z);
-	// 	printf("color = %d\n", head->color);
-	// 	head = head->next;
-	// }
+	while (head)
+	{
+		if (head->type == 1)
+			printf("sphere:");
+		// printf("\npos_x = %f, pos_y = %f, pos_z = %f\n", head->x, head->y, head->z);
+		// printf("scale = %f, tilt_x = %f, tilt_y = %f, tilt_z = %f\n", head->scale, head->tilt_x, head->tilt_y, head->tilt_z);
+		// printf("color = %d\n", head->color);
+		head = head->next;
+	}
 	printf("LIGHTS:\n");
 	t_light *headl;
 	headl = scene->lights;
@@ -47,6 +47,7 @@ void	scene_init(t_rtv *scene)
 	scene->camera.tilt_y = 0.0;
 	scene->camera.tilt_z = 1.0;
 	scene->objects = NULL;
+	scene->lights = NULL;
 }
 
 int		main(int argc, char **argv){

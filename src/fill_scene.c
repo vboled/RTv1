@@ -22,7 +22,7 @@ int		addObject(t_rtv *scene, char **param)
 		return (addObj(&(scene->objects), param, 1));
 	else if (!ft_strcmp(param[0], "light:"))
 		return (addLight(&(scene->lights), param));
-	return (0);
+	return (1);
 }
 
 void	init_mlx(t_rtv *rtv)
