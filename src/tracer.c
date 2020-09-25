@@ -1,10 +1,5 @@
 #include "rtv1.h"
 
-double	dot(t_vec *lhs, t_vec *rhs)
-{
-	return (lhs->x * rhs->x + lhs->y * rhs->y + lhs->z * rhs->z);
-}
-
 double	intersectSpehere(t_rtv *rtv, t_vec *d, t_vec oc, double rad)
 {
 	double	k1;
@@ -25,47 +20,28 @@ double	intersectSpehere(t_rtv *rtv, t_vec *d, t_vec oc, double rad)
 	return (y);
 }
 
-t_vec	makeOC(t_rtv *rtv, t_obj *obj)
+int		change_intensity(int color, double coeff)
 {
-	t_vec	res;
+	int r;
+	int g;
+	int b;
 
-	res.x = rtv->camera.x - obj->x;
-	res.y = rtv->camera.y - obj->y;
-	res.z = rtv->camera.x - obj->z;
-	return (res);
-}
-
-t_vec	makeP(t_rtv *rtv, double t, t_vec *d)
-{
-	t_vec	res;
-
-	res.x = rtv->camera.x + t * d->x;
-	res.x = rtv->camera.y + t * d->y;
-	res.x = rtv->camera.z + t * d->z;
-	return (res);
-}
-
-double	vec_len(t_vec *vec)
-{
-	return sqrt(vec->x * vec->x + vec->y * vec->y + vec->z * vec->z);
-}
-
-t_vec	makeN(t_vec *p, t_obj* obj)
-{
-	t_vec	res;
-	double	len;
-
-	res.x = p->x - obj->x;
-	res.y = p->y - obj->y;
-	res.z = p->z - obj->z;
-	len = vec_len(&res);
-	if (len)
-	{
-		res.x /= len;
-		res.y /= len;
-		res.z /= len;
-	}
-	return (res);
+	r = ((color >> 16) & 0xFF) * coeff;
+	g = ((color >> 8) & 0xFF) * coeff;
+	b = (color & 0xFF) * coeff;
+	if (r > 255)
+		r = 255;
+	if (r < 0)
+		r = 0;
+	if (g > 255)
+		g = 255;
+	if (g < 0)
+		g = 0;
+	if (b > 255)
+		b = 255;
+	if (b < 0)
+		b = 0;
+	return ((r & 0xff) << 16 | (g & 0xff) << 8 | (b & 0xff));
 }
 
 double	computeIntens(t_rtv *rtv, t_vec p, t_vec n)
@@ -75,12 +51,13 @@ double	computeIntens(t_rtv *rtv, t_vec p, t_vec n)
 	t_vec		l;
 
 	intens = 0.0;
+	printf("%f, %f, %f\n", n.x, n.y, n.z);
 	head = rtv->lights;
 	while (head)
 	{
 		if (head->type == 1)
 			intens += head->intens;
-		else if (head->type == 2)
+		if (head->type == 2)
 		{
 			l.x = head->x - p.x;
 			l.y = head->y - p.y;
@@ -102,32 +79,6 @@ double	computeIntens(t_rtv *rtv, t_vec p, t_vec n)
 	if (intens < 0)
 		intens = 0.0;
 	return (intens);
-}
-
-int		change_intensity(int color, double coeff)
-{
-	int r;
-	int g;
-	int b;
-
-	// if (!coeff)
-		// return (color);
-	r = ((color >> 16) & 0xFF) * coeff;
-	g = ((color >> 8) & 0xFF) * coeff;
-	b = (color & 0xFF) * coeff;
-	if (r > 255)
-		r = 255;
-	if (r < 0)
-		r = 0;
-	if (g > 255)
-		g = 255;
-	if (g < 0)
-		g = 0;
-	if (b > 255)
-		b = 255;
-	if (b < 0)
-		b = 0;
-	return ((r & 0xff) << 16 | (g & 0xff) << 8 | (b & 0xff));
 }
 
 int		traceRay(t_rtv *rtv, t_vec *d)
@@ -153,17 +104,9 @@ int		traceRay(t_rtv *rtv, t_vec *d)
 	if (!closest_obj)
 		return (0xFFFFFF);
 	p = makeP(rtv, closest_t, d);
-	// return closest_obj->color;
 	double in = computeIntens(rtv, p, makeN(&p, closest_obj));
-	printf("%f\n", in);
+	// printf("%f\n", in);
 	return (change_intensity(closest_obj->color, in));
-}
-
-void	vecInit(t_vec *d, int x, int y)
-{
-	d->x = 1.0 * x / WIDTH;
-	d->y = -1.0 * y / HEIGHT;
-	d->z = 1.0;
 }
 
 void	tracer(t_rtv *rtv)
@@ -179,10 +122,7 @@ void	tracer(t_rtv *rtv)
 		while (++i < HEIGHT / 2)
 		{
 			vecInit(&D, j, i);
-			int color = traceRay(rtv, &D);
-			rtv->pix_m[(i + HEIGHT / 2) * WIDTH + j + WIDTH / 2] = color;
-			// if (color)
-				// printf("%d, ", color);
+			rtv->pix_m[(i + HEIGHT / 2) * WIDTH + j + WIDTH / 2] = traceRay(rtv, &D);
 		}
 	}
 }

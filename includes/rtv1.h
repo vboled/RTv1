@@ -84,5 +84,12 @@ int					addObj(t_obj **obj, char **param, int type);
 int					deal_hook(int key, t_rtv *param);
 void				clear_window(t_rtv *frac);
 void				create_mlx_image(t_rtv *frac);
+void				vecInit(t_vec *d, int x, int y);
 void				tracer(t_rtv *rtv);
+t_vec				makeOC(t_rtv *rtv, t_obj *obj);
+t_vec				makeN(t_vec *p, t_obj* obj);
+t_vec				makeP(t_rtv *rtv, double t, t_vec *d);
+double				dot(t_vec *lhs, t_vec *rhs);
+double				vec_len(t_vec *vec);
+int		change_intensity(int color, double coeff);
 #endif

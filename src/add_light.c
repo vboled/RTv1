@@ -6,7 +6,6 @@ int		getAmbientLightParam(t_light *light, char **param)
 	if (!param[2])
 		return (0);
 	light->intens = ft_atoi(param[2]) / 100.0;
-	printf("%f", light->intens);
 	if (light->intens > 1.0)
 		light->intens = 1.0;
 	return (1);
@@ -31,7 +30,7 @@ int		getDirectionalLightParam(t_light *light, char **param)
 	light->type = 3;
 	if (!param[5])
 		return (0);
-	light->intens = (double)ft_atoi(param[1]) / 100.0;
+	light->intens = (double)ft_atoi(param[2]) / 100.0;
 	if (light->intens > 1.0)
 		light->intens = 1.0;
 	light->dirX = ft_atoi(param[3]);
