@@ -1,25 +1,5 @@
 #include "rtv1.h"
 
-double	intersectSpehere(t_rtv *rtv, t_vec *d, t_vec oc, double rad)
-{
-	double	k1;
-	double	k2;
-	double	k3;
-	double	disk;
-
-	k1 = dot(d, d);
-	k2 = 2.0 * dot(&oc, d);
-	k3 = dot(&oc, &oc) - rad * rad;
-	disk = k2 * k2 - 4 * k1 * k3;
-	if (d < 0)
-		return (INT_MAX);
-	int x = (-k2 + sqrt(disk)) / (2.0 * k1);
-	int y = (-k2 - sqrt(disk)) / (2.0 * k1);
-	if (x < y)
-		return (x);
-	return (y);
-}
-
 int		change_intensity(int color, double coeff)
 {
 	int r;
@@ -44,76 +24,71 @@ int		change_intensity(int color, double coeff)
 	return ((r & 0xff) << 16 | (g & 0xff) << 8 | (b & 0xff));
 }
 
-double	computeIntens(t_rtv *rtv, t_vec p, t_vec n)
+double specular(t_rtv *rtv, t_light *light, double s)
 {
-	double		intens, n_dot_l;
+	t_vec	r;
+	t_vec	v;
+	double	n_dot_l;
+	double	r_dot_v;
+
+	if (!s)
+		return (0);
+	n_dot_l = dot(&(rtv->n), &(rtv->l));
+	r.x = 2 * rtv->n.x * n_dot_l - rtv->l.x;
+	r.y = 2 * rtv->n.y * n_dot_l - rtv->l.y;
+	r.z = 2 * rtv->n.z * n_dot_l - rtv->l.z;
+	v.x = -rtv->d.x;
+	v.y = -rtv->d.y;
+	v.z = -rtv->d.z;
+	r_dot_v = dot(&r, &v);
+	if (r_dot_v > 0)
+		return (light->intens * pow(r_dot_v / vec_len(&r) / vec_len(&v), s));
+	return (0.0);
+}
+
+double	computeIntens(t_rtv *rtv)
+{
+	double		intens;
+	double		n_dot_l;
 	t_light		*head;
-	t_vec		l;
 
 	intens = 0.0;
-	printf("%f, %f, %f\n", n.x, n.y, n.z);
 	head = rtv->lights;
 	while (head)
 	{
 		if (head->type == 1)
 			intens += head->intens;
-		if (head->type == 2)
-		{
-			l.x = head->x - p.x;
-			l.y = head->y - p.y;
-			l.z = head->z - p.z;
-		}
 		else
 		{
-			l.x = head->dirX;
-			l.y = head->dirY;
-			l.z = head->dirZ;
+			// if (is_shadow(rtv))
+			// 	break ;
+			make_l(&(rtv->l), head, &(rtv->p));
+			n_dot_l = dot(&(rtv->n), &(rtv->l));
+			if (n_dot_l > 0)
+				intens += head->intens * n_dot_l / (vec_len(&(rtv->n)) * vec_len(&(rtv->l)));
+			intens += specular(rtv, head, rtv->closest->obj->specular);
 		}
-		n_dot_l = dot(&n, &l);
-		if (n_dot_l > 0)
-			intens += head->intens * n_dot_l / (vec_len(&n) * vec_len(&l));
 		head = head->next;
 	}
-	if (intens > 1.0)
-		intens = 1.0;
-	if (intens < 0)
-		intens = 0.0;
 	return (intens);
 }
 
-int		traceRay(t_rtv *rtv, t_vec *d)
+int		traceRay(t_rtv *rtv)
 {
-	double	t, closest_t;
+	double	t;
 	t_obj	*head;
-	t_obj	*closest_obj;
-	t_vec	p;
 
-	closest_obj = 0;
-	closest_t = INT_MAX;
-	head = rtv->objects;
-	while (head)
-	{
-		t = intersectSpehere(rtv, d, makeOC(rtv, head), head->scale);
-		if (t >= 1 && t <= INT_MAX && t < closest_t)
-		{
-			closest_t = t;
-			closest_obj = head;
-		}
-		head = head->next;
-	}
-	if (!closest_obj)
+	if (!closest_intersection(rtv, &(rtv->camera.pos), &(rtv->d), 1.0))
 		return (0xFFFFFF);
-	p = makeP(rtv, closest_t, d);
-	double in = computeIntens(rtv, p, makeN(&p, closest_obj));
-	// printf("%f\n", in);
-	return (change_intensity(closest_obj->color, in));
+	make_p(rtv);
+	make_n(rtv);
+	return (change_intensity(rtv->closest->obj->color, computeIntens(rtv)));
 }
 
 void	tracer(t_rtv *rtv)
 {
 	int		i;
 	int		j;
-	t_vec	D;
 
 	j = -WIDTH / 2;
 	while (++j < WIDTH / 2)
@@ -121,8 +96,8 @@ void	tracer(t_rtv *rtv)
 		i = -HEIGHT / 2;
 		while (++i < HEIGHT / 2)
 		{
-			vecInit(&D, j, i);
-			rtv->pix_m[(i + HEIGHT / 2) * WIDTH + j + WIDTH / 2] = traceRay(rtv, &D);
+			vecInit(&(rtv->d), j, i);
+			rtv->pix_m[(i + HEIGHT / 2) * WIDTH + j + WIDTH / 2] = traceRay(rtv);
 		}
 	}
 }

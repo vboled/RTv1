@@ -15,7 +15,8 @@ SRCS = main.c \
 	   window_work.c\
 	   tracer.c\
 	   add_light.c\
-	   vec_operation.c
+	   vec_operation.c\
+	   intersection.c
 
 HEAD = -I$(INCDIR)
 

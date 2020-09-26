@@ -15,17 +15,17 @@
 int		addCamera(t_rtv *scene, char **param)
 {
 	if (param[1])
-		scene->camera.x = ft_atoi(param[1]);
+		scene->camera.pos.x = ft_atoi(param[1]);
 	if (param[2])
-		scene->camera.y = ft_atoi(param[2]);
+		scene->camera.pos.y = ft_atoi(param[2]);
 	if (param[3])
-		scene->camera.z = ft_atoi(param[3]);
+		scene->camera.pos.z = ft_atoi(param[3]);
 	return (1);
 }
 
 int		getSphereParam(t_obj *sphere, char **param)
 {
-	if (!param[8])
+	if (!param[9])
 		return (0);
 	sphere->type = 1;
 	sphere->x = ft_atoi(param[1]);
@@ -36,6 +36,7 @@ int		getSphereParam(t_obj *sphere, char **param)
 	sphere->tilt_y = ft_atoi(param[6]);
 	sphere->tilt_z = ft_atoi(param[7]);
 	sphere->color = ft_atoi(param[8]);
+	sphere->specular = ft_atoi(param[9]);
 	return (1);
 }
 

@@ -18,7 +18,8 @@
 # include <limits.h>
 # define WIDTH 600
 # define HEIGHT 600
-
+# define MAX_T 2147483647
+# define MIN_T 1
 typedef struct		s_vec
 {
 	double			x;
@@ -41,9 +42,7 @@ typedef struct		s_light
 
 typedef struct      s_camera
 {
-	double			x;
-	double			y;
-	double			z;
+	t_vec			pos;
 	double			tilt_x;
 	double			tilt_y;
 	double			tilt_z;
@@ -59,9 +58,17 @@ typedef struct		s_obj
 	double			tilt_x;
 	double			tilt_y;
 	double			tilt_z;
+	double			specular;
 	int				color;
 	struct s_obj	*next;
 }					t_obj;
+
+
+typedef	struct		s_closest
+{
+	t_obj			*obj;
+	double			t;
+}					t_closest;
 
 typedef struct		s_rtv
 {
@@ -72,9 +79,16 @@ typedef struct		s_rtv
 	int				bits_per_pixel;
 	int				size_line;
 	int				endian;
+	t_vec			n;
+	t_vec			l;
+	t_vec			p;
+	t_vec			d;
 	t_obj			*objects;
 	t_camera		camera;
+	t_closest		*closest;
 	t_light			*lights;
+	double			t1;
+	double			t2;
 }					t_rtv;
 
 int					getData(char *filename, t_rtv *scene);
@@ -86,10 +100,11 @@ void				clear_window(t_rtv *frac);
 void				create_mlx_image(t_rtv *frac);
 void				vecInit(t_vec *d, int x, int y);
 void				tracer(t_rtv *rtv);
-t_vec				makeOC(t_rtv *rtv, t_obj *obj);
-t_vec				makeN(t_vec *p, t_obj* obj);
-t_vec				makeP(t_rtv *rtv, double t, t_vec *d);
+void				make_n(t_rtv *rtv);
+void				make_p(t_rtv *rtv);
+void				make_l(t_vec *l, t_light *head, t_vec *p);
 double				dot(t_vec *lhs, t_vec *rhs);
 double				vec_len(t_vec *vec);
+int					closest_intersection(t_rtv *rtv, t_vec *o, t_vec *d, double min);
 int		change_intensity(int color, double coeff);
 #endif

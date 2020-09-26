@@ -15,7 +15,7 @@
 
 void	printScene(t_rtv *scene)
 {
-	printf("camera:\npos_x = %f, pos_y = %f, pos_z = %f\n", scene->camera.x, scene->camera.y, scene->camera.z);
+	printf("camera:\npos_x = %f, pos_y = %f, pos_z = %f\n", scene->camera.pos.x, scene->camera.pos.y, scene->camera.pos.z);
 	printf("tilt_x = %f, tilt_y = %f, tilt_z = %f\n", scene->camera.tilt_x, scene->camera.tilt_y, scene->camera.tilt_z);
 	t_obj *head;
 	head = scene->objects;
@@ -38,23 +38,20 @@ void	printScene(t_rtv *scene)
 	}
 }
 
-void	scene_init(t_rtv *scene)
+int		scene_init(t_rtv *scene)
 {
-	scene->camera.x = 0;
-	scene->camera.y = 1;
-	scene->camera.z = -1;
-	scene->camera.tilt_x = 0.0;
-	scene->camera.tilt_y = 0.0;
-	scene->camera.tilt_z = 1.0;
 	scene->objects = NULL;
 	scene->lights = NULL;
+	if (!(scene->closest =(t_closest *)malloc(sizeof(t_closest))))
+		return (0);
+	return (1); 
 }
 
 int		main(int argc, char **argv){
 	t_rtv	scene;
 
-	scene_init(&scene);
-	if (!getData(argv[1], &scene))
+	;
+	if (!scene_init(&scene) || !getData(argv[1], &scene))
 	{
 		write(1, "ERROR\n", 6);
 		return (0);
