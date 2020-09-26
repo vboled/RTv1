@@ -102,9 +102,10 @@ void				vecInit(t_vec *d, int x, int y);
 void				tracer(t_rtv *rtv);
 void				make_n(t_rtv *rtv);
 void				make_p(t_rtv *rtv);
-void				make_l(t_vec *l, t_light *head, t_vec *p);
+int					make_l(t_vec *l, t_light *head, t_vec *p);
 double				dot(t_vec *lhs, t_vec *rhs);
 double				vec_len(t_vec *vec);
+int					is_shadow(t_rtv *rtv);
 int					closest_intersection(t_rtv *rtv, t_vec *o, t_vec *d, double min);
 int		change_intensity(int color, double coeff);
 #endif

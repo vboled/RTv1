@@ -51,6 +51,7 @@ double	computeIntens(t_rtv *rtv)
 	double		intens;
 	double		n_dot_l;
 	t_light		*head;
+	t_obj		*obj;
 
 	intens = 0.0;
 	head = rtv->lights;
@@ -58,11 +59,8 @@ double	computeIntens(t_rtv *rtv)
 	{
 		if (head->type == 1)
 			intens += head->intens;
-		else
+		else if (make_l(&(rtv->l), head, &(rtv->p)) && !is_shadow(rtv))
 		{
-			// if (is_shadow(rtv))
-			// 	break ;
-			make_l(&(rtv->l), head, &(rtv->p));
 			n_dot_l = dot(&(rtv->n), &(rtv->l));
 			if (n_dot_l > 0)
 				intens += head->intens * n_dot_l / (vec_len(&(rtv->n)) * vec_len(&(rtv->l)));

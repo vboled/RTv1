@@ -38,6 +38,37 @@ void	intersect_obj(t_rtv *rtv, t_vec *o, t_vec *d, t_obj *obj)
 		intersect_sphere(rtv, o, d, obj);
 }
 
+int		is_shadow(t_rtv *rtv)
+{
+	t_obj	*head;
+	t_obj	*obj;
+	double	min_t;
+	double closest_t;
+
+	min_t = 0.0001;
+	head = rtv->objects;
+	closest_t = MAX_T;
+	obj = 0;
+	while (head)
+	{
+		intersect_obj(rtv, &(rtv->p), &(rtv->l), head);
+		if (rtv->t1 > min_t && rtv->t1 < MAX_T && rtv->t1 < closest_t)
+		{
+			closest_t = rtv->t1;
+			obj = head;
+		}
+		if (rtv->t2 > min_t && rtv->t2 < MAX_T && rtv->t2 < closest_t)
+		{
+			closest_t = rtv->t2;
+			obj = head;
+		}
+		head = head->next;
+	}
+	if (obj)
+		return (1);
+	return (0);
+}
+
 int		closest_intersection(t_rtv *rtv, t_vec *o, t_vec *d, double min)
 {
 	t_obj	*head;

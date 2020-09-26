@@ -40,7 +40,7 @@ void	vecInit(t_vec *d, int x, int y)
 	d->z = 1.0;
 }
 
-void	make_l(t_vec *l, t_light *head, t_vec *p)
+int		make_l(t_vec *l, t_light *head, t_vec *p)
 {
 	if (head->type == 2)
 	{
@@ -54,4 +54,5 @@ void	make_l(t_vec *l, t_light *head, t_vec *p)
 		l->y = head->dirY;
 		l->z = head->dirZ;
 	}
+	return (1);
 }
