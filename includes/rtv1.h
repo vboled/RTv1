@@ -55,10 +55,8 @@ typedef struct		s_obj
 	double			y;
 	double			z;
 	double			scale;
-	double			tilt_x;
-	double			tilt_y;
-	double			tilt_z;
 	double			specular;
+	double			reflective;
 	int				color;
 	struct s_obj	*next;
 }					t_obj;
@@ -79,6 +77,7 @@ typedef struct		s_rtv
 	int				bits_per_pixel;
 	int				size_line;
 	int				endian;
+	int				*depth;
 	t_vec			n;
 	t_vec			l;
 	t_vec			p;
@@ -106,6 +105,6 @@ int					make_l(t_vec *l, t_light *head, t_vec *p);
 double				dot(t_vec *lhs, t_vec *rhs);
 double				vec_len(t_vec *vec);
 int					is_shadow(t_rtv *rtv);
+t_vec				reverse_vec(t_vec *vec);
 int					closest_intersection(t_rtv *rtv, t_vec *o, t_vec *d, double min);
-int		change_intensity(int color, double coeff);
 #endif

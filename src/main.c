@@ -42,6 +42,8 @@ int		scene_init(t_rtv *scene)
 {
 	scene->objects = NULL;
 	scene->lights = NULL;
+	if (!(scene->depth =(int *)malloc(sizeof(int))))
+		return (0);
 	if (!(scene->closest =(t_closest *)malloc(sizeof(t_closest))))
 		return (0);
 	return (1); 

@@ -71,16 +71,44 @@ double	computeIntens(t_rtv *rtv)
 	return (intens);
 }
 
-int		traceRay(t_rtv *rtv)
+t_vec	reflect_ray(t_vec r, t_vec *n)
+{
+	double	n_dot_r;
+	t_vec	res;
+
+	n_dot_r = dot(n, &r);
+	res.x = 2 * n->x * n_dot_r - r.x;
+	res.y = 2 * n->y * n_dot_r - r.y;
+	res.z = 2 * n->z * n_dot_r - r.z;
+	return (res);
+}
+
+int		traceRay(t_rtv *rtv, t_vec *o, t_vec *d, double min)
 {
 	double	t;
 	t_obj	*head;
+	int		local_color;
+	t_vec	reflected;
+	int		reflected_color;
 
-	if (!closest_intersection(rtv, &(rtv->camera.pos), &(rtv->d), 1.0))
+	char c = '0';
+	c += *(rtv->depth);
+	if (c!= '3')
+		write(1, &c, 1);
+	(*rtv->depth)--;
+	if (!closest_intersection(rtv, o, d, min))
 		return (0xFFFFFF);
 	make_p(rtv);
 	make_n(rtv);
-	return (change_intensity(rtv->closest->obj->color, computeIntens(rtv)));
+	// return (change_intensity(rtv->closest->obj->color, computeIntens(rtv)));
+	local_color = change_intensity(rtv->closest->obj->color, computeIntens(rtv));
+	if (rtv->depth <= 0 || rtv->closest->obj->reflective <= 0)
+		return (local_color);
+	return (local_color);
+	reflected = reflect_ray(reverse_vec(&(rtv->d)), &(rtv->n));
+	reflected_color = traceRay(rtv, &(rtv->p), &reflected, 0.001);
+	// return (change_intensity(local_color, 1 - rtv->closest->obj->reflective) + change_intensity(reflected_color, rtv->closest->obj->reflective));
+	return (local_color);
 }
 
 void	tracer(t_rtv *rtv)
@@ -94,8 +122,9 @@ void	tracer(t_rtv *rtv)
 		i = -HEIGHT / 2;
 		while (++i < HEIGHT / 2)
 		{
+			*(rtv->depth) = 3;
 			vecInit(&(rtv->d), j, i);
-			rtv->pix_m[(i + HEIGHT / 2) * WIDTH + j + WIDTH / 2] = traceRay(rtv);
+			rtv->pix_m[(i + HEIGHT / 2) * WIDTH + j + WIDTH / 2] = traceRay(rtv, &(rtv->camera.pos), &(rtv->d), 1.0);
 		}
 	}
 }

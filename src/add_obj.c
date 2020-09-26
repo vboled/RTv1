@@ -25,18 +25,20 @@ int		addCamera(t_rtv *scene, char **param)
 
 int		getSphereParam(t_obj *sphere, char **param)
 {
-	if (!param[9])
+	if (!param[7])
 		return (0);
 	sphere->type = 1;
 	sphere->x = ft_atoi(param[1]);
 	sphere->y = ft_atoi(param[2]);
 	sphere->z = ft_atoi(param[3]);
 	sphere->scale = ft_atoi(param[4]);
-	sphere->tilt_x = ft_atoi(param[5]);
-	sphere->tilt_y = ft_atoi(param[6]);
-	sphere->tilt_z = ft_atoi(param[7]);
-	sphere->color = ft_atoi(param[8]);
-	sphere->specular = ft_atoi(param[9]);
+	sphere->color = ft_atoi(param[5]);
+	sphere->specular = ft_atoi(param[6]);
+	sphere->reflective = ft_atoi(param[7]) / 100.0;
+	if (sphere->reflective > 1.0)
+		sphere->reflective = 1.0;
+	if (sphere->reflective < 0)
+		sphere->reflective = 0.0;
 	return (1);
 }
 

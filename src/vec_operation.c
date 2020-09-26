@@ -56,3 +56,14 @@ int		make_l(t_vec *l, t_light *head, t_vec *p)
 	}
 	return (1);
 }
+
+t_vec	reverse_vec(t_vec *vec)
+{
+	t_vec	res;
+
+	res.x = -vec->x;
+	res.y = -vec->y;
+	res.z = -vec->z;
+
+	return (res);
+}
