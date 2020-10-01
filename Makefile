@@ -10,13 +10,13 @@ GCC = gcc
 NAME = RTv1
 SRCS = main.c \
 	   get_next_line.c \
-	   fill_scene.c\
-	   add_obj.c\
-	   window_work.c\
-	   tracer.c\
-	   add_light.c\
-	   vec_operation.c\
-	   intersection.c
+	   fill_scene.c \
+	   add_obj.c \
+	   tracer.c \
+	   add_light.c \
+	   vec_operation.c \
+	   intersection.c \
+	   image_work.c
 
 HEAD = -I$(INCDIR)
 
@@ -30,12 +30,14 @@ ifeq ($(detected_OS),Linux)
 	LIBMAKE := libs/minilibx
 	LIB :=  -L libs/libft -lft -L libs/minilibx -lmlx_Linux -lXext -lX11 -lm
 	HEAD += -I./libs/minilibx/
+	SRCS += window_work_linux.c
 endif
 ifeq ($(detected_OS),Darwin) 
 	MAKES = ./libs/libft/libft.a ./libs/minilibx_macos/libmlx.a
 	LIBMAKE := libs/minilibx_macos
 	LIB := -L libs/libft -lft -L libs/minilibx_macos -lmlx -framework OpenGL -framework Appkit
 	HEAD += -I./libs/minilibx_macos/
+	SRCS += window_work_mac.c
 endif
 
 OBJS = $(addprefix $(OBJDIR), $(SRCS:.c=.o))

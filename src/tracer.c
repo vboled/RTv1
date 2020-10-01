@@ -102,12 +102,20 @@ void	vec_rot(t_rtv *rtv, t_vec *d)
 {
 	double	tmp;
 
-	tmp = d->y * cos(rtv->rot_x) + d->z * sin(rtv->rot_x);
-	d->z = -d->y * sin(rtv->rot_x) + d->z * cos(rtv->rot_x);
+	tmp = d->y * cos(rtv->camera.tilt_x) + d->z * sin(rtv->camera.tilt_x);
+	d->z = -d->y * sin(rtv->camera.tilt_x) + d->z * cos(rtv->camera.tilt_x);
 	d->y = tmp;
-	tmp = d->x * cos(rtv->rot_y) - d->z * sin(rtv->rot_y);
-	d->z = d->x * sin(rtv->rot_y) + d->z * cos(rtv->rot_y);
+	tmp = d->x * cos(rtv->camera.tilt_y) - d->z * sin(rtv->camera.tilt_y);
+	d->z = d->x * sin(rtv->camera.tilt_y) + d->z * cos(rtv->camera.tilt_y);
 	d->x = tmp;
+}
+
+void	move_camera(t_vec *d, t_vec *camera)
+{
+	// if (key == 119)
+	// 	camera->x += 0.01;
+	// else
+
 }
 
 void	tracer(t_rtv *rtv)
@@ -123,6 +131,7 @@ void	tracer(t_rtv *rtv)
 		{
 			vecInit(&(rtv->d), j, i);
 			vec_rot(rtv, &(rtv->d));
+			move_camera(&(rtv->d), &(rtv->camera.pos));
 			rtv->pix_m[(i + HEIGHT / 2) * WIDTH + j + WIDTH / 2] = traceRay(rtv, &(rtv->camera.pos), &(rtv->d), 1.0);
 		}
 	}

@@ -45,7 +45,6 @@ typedef struct      s_camera
 	t_vec			pos;
 	double			tilt_x;
 	double			tilt_y;
-	double			tilt_z;
 }					t_camera;
 
 typedef struct		s_obj
@@ -88,9 +87,7 @@ typedef struct		s_rtv
 	t_light			*lights;
 	double			t1;
 	double			t2;
-	double			rot_x;
-	double			rot_y;
-	double			rot_z;
+	int				need_to_redraw;
 }					t_rtv;
 
 int					getData(char *filename, t_rtv *scene);
