@@ -1,12 +1,27 @@
 #include "rtv1.h"
 
+void	rotation(t_rtv *rtv, int key)
+{
+	if (key == 65362 || key == 126)
+		rtv->rot_x += 0.05;
+	if (key == 65364 || key == 125)
+		rtv->rot_x -= 0.05;
+	if (key == 65363 || key == 124)
+		rtv->rot_y -= 0.05;
+	if (key == 65361 || key == 123)
+		rtv->rot_y += 0.05;
+}
+
 int		deal_hook(int key, t_rtv *param)
 {
+	if ((key >= 65361 && key <= 65364) || (key >= 123 && key <= 126))
+		rotation(param, key);
 	if (key == 53 || key == 65307)
 	{
 		write(1, "EXIT\n", 5);
 		exit (0);
 	}
+	create_mlx_image(param);
 	return (0);
 }
 

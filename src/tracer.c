@@ -91,24 +91,23 @@ int		traceRay(t_rtv *rtv, t_vec *o, t_vec *d, double min)
 	t_vec	reflected;
 	int		reflected_color;
 
-	char c = '0';
-	c += *(rtv->depth);
-	if (c!= '3')
-		write(1, &c, 1);
-	(*rtv->depth)--;
 	if (!closest_intersection(rtv, o, d, min))
 		return (0xFFFFFF);
 	make_p(rtv);
 	make_n(rtv);
-	// return (change_intensity(rtv->closest->obj->color, computeIntens(rtv)));
-	local_color = change_intensity(rtv->closest->obj->color, computeIntens(rtv));
-	if (rtv->depth <= 0 || rtv->closest->obj->reflective <= 0)
-		return (local_color);
-	return (local_color);
-	reflected = reflect_ray(reverse_vec(&(rtv->d)), &(rtv->n));
-	reflected_color = traceRay(rtv, &(rtv->p), &reflected, 0.001);
-	// return (change_intensity(local_color, 1 - rtv->closest->obj->reflective) + change_intensity(reflected_color, rtv->closest->obj->reflective));
-	return (local_color);
+	return (change_intensity(rtv->closest->obj->color, computeIntens(rtv)));
+}
+
+void	vec_rot(t_rtv *rtv, t_vec *d)
+{
+	double	tmp;
+
+	tmp = d->y * cos(rtv->rot_x) + d->z * sin(rtv->rot_x);
+	d->z = -d->y * sin(rtv->rot_x) + d->z * cos(rtv->rot_x);
+	d->y = tmp;
+	tmp = d->x * cos(rtv->rot_y) - d->z * sin(rtv->rot_y);
+	d->z = d->x * sin(rtv->rot_y) + d->z * cos(rtv->rot_y);
+	d->x = tmp;
 }
 
 void	tracer(t_rtv *rtv)
@@ -122,8 +121,8 @@ void	tracer(t_rtv *rtv)
 		i = -HEIGHT / 2;
 		while (++i < HEIGHT / 2)
 		{
-			*(rtv->depth) = 3;
 			vecInit(&(rtv->d), j, i);
+			vec_rot(rtv, &(rtv->d));
 			rtv->pix_m[(i + HEIGHT / 2) * WIDTH + j + WIDTH / 2] = traceRay(rtv, &(rtv->camera.pos), &(rtv->d), 1.0);
 		}
 	}

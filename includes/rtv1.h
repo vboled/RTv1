@@ -88,6 +88,9 @@ typedef struct		s_rtv
 	t_light			*lights;
 	double			t1;
 	double			t2;
+	double			rot_x;
+	double			rot_y;
+	double			rot_z;
 }					t_rtv;
 
 int					getData(char *filename, t_rtv *scene);

@@ -46,13 +46,15 @@ int		scene_init(t_rtv *scene)
 		return (0);
 	if (!(scene->closest =(t_closest *)malloc(sizeof(t_closest))))
 		return (0);
+	scene->rot_x = 0.0;
+	scene->rot_y = 0.0;
+	scene->rot_z = 0.0;
 	return (1); 
 }
 
 int		main(int argc, char **argv){
 	t_rtv	scene;
 
-	;
 	if (!scene_init(&scene) || !getData(argv[1], &scene))
 	{
 		write(1, "ERROR\n", 6);
