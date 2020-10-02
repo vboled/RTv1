@@ -51,7 +51,6 @@ double	computeIntens(t_rtv *rtv)
 	double		intens;
 	double		n_dot_l;
 	t_light		*head;
-	t_obj		*obj;
 
 	intens = 0.0;
 	head = rtv->lights;
@@ -86,7 +85,6 @@ t_vec	reflect_ray(t_vec r, t_vec *n)
 int		traceRay(t_rtv *rtv, t_vec *o, t_vec *d, double min)
 {
 	double	t;
-	t_obj	*head;
 	int		local_color;
 	t_vec	reflected;
 	int		reflected_color;
@@ -110,14 +108,6 @@ void	vec_rot(t_rtv *rtv, t_vec *d)
 	d->x = tmp;
 }
 
-void	move_camera(t_vec *d, t_vec *camera)
-{
-	// if (key == 119)
-	// 	camera->x += 0.01;
-	// else
-
-}
-
 void	tracer(t_rtv *rtv)
 {
 	int		i;
@@ -131,8 +121,8 @@ void	tracer(t_rtv *rtv)
 		{
 			vecInit(&(rtv->d), j, i);
 			vec_rot(rtv, &(rtv->d));
-			move_camera(&(rtv->d), &(rtv->camera.pos));
-			rtv->pix_m[(i + HEIGHT / 2) * WIDTH + j + WIDTH / 2] = traceRay(rtv, &(rtv->camera.pos), &(rtv->d), 1.0);
+			rtv->pix_m[(i + HEIGHT / 2) * WIDTH + j + WIDTH / 2] =
+			traceRay(rtv, &(rtv->camera.pos), &(rtv->d), 1.0);
 		}
 	}
 }

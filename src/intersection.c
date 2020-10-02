@@ -32,10 +32,19 @@ void	intersect_sphere(t_rtv *rtv, t_vec *o, t_vec *d, t_obj *obj)
 	t_for_sphere(rtv, &oc, d, obj->scale);
 }
 
+void	intersect_plane(t_rtv *rtv, t_vec *o, t_vec *d, t_obj *obj)
+{
+	rtv->t1 = (-obj->coeff.d - obj->coeff.a * o->x - obj->coeff.b * 
+	o->y - obj->coeff.c * o->z)/(-obj->coeff.a * d->x + obj->coeff.b * d->y + obj->coeff.c * d->z);
+	rtv->t2 = rtv->t1;
+}
+
 void	intersect_obj(t_rtv *rtv, t_vec *o, t_vec *d, t_obj *obj)
 {
 	if (obj->type == 1)
 		intersect_sphere(rtv, o, d, obj);
+	if (obj->type == 2)
+		intersect_plane(rtv, o, d, obj);
 }
 
 int		is_shadow(t_rtv *rtv)

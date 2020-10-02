@@ -15,11 +15,11 @@
 # include "get_next_line.h"
 # include <mlx.h>
 # include <math.h>
-# include <limits.h>
 # define WIDTH 600
 # define HEIGHT 600
 # define MAX_T 2147483647
 # define MIN_T 1
+
 typedef struct		s_vec
 {
 	double			x;
@@ -47,12 +47,21 @@ typedef struct      s_camera
 	double			tilt_y;
 }					t_camera;
 
+typedef struct		s_plane
+{
+	double			a;
+	double			b;
+	double			c;
+	double			d;
+}					t_plane;
+
 typedef struct		s_obj
 {
 	int				type;
 	double			x;
 	double			y;
 	double			z;
+	t_plane			coeff;
 	double			scale;
 	double			specular;
 	double			reflective;
@@ -106,5 +115,6 @@ double				dot(t_vec *lhs, t_vec *rhs);
 double				vec_len(t_vec *vec);
 int					is_shadow(t_rtv *rtv);
 t_vec				reverse_vec(t_vec *vec);
+int					get_plane_param(t_obj *obj, char **param);
 int					closest_intersection(t_rtv *rtv, t_vec *o, t_vec *d, double min);
 #endif

@@ -46,6 +46,8 @@ int		getObjParam(t_obj *obj, char **param, int type)
 {
 	if (type == 1 && !getSphereParam(obj, param))
 		return (0);
+	if (type == 2 && !get_plane_param(obj, param))
+		return (0);
 	return (1);
 }
 

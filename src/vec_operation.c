@@ -17,7 +17,7 @@ double	vec_len(t_vec *vec)
 	return sqrtf(vec->x * vec->x + vec->y * vec->y + vec->z * vec->z);
 }
 
-void	make_n(t_rtv *rtv)
+void	make_n_for_sphere(t_rtv *rtv)
 {
 	double	len;
 
@@ -31,6 +31,31 @@ void	make_n(t_rtv *rtv)
 		rtv->n.y /= len;
 		rtv->n.z /= len;
 	}
+}
+
+void	make_n_for_plane(t_rtv *rtv)
+{
+	double	len;
+
+	rtv->n.x = rtv->closest->obj->coeff.a;
+	rtv->n.y = -rtv->closest->obj->coeff.b;
+	rtv->n.z = rtv->closest->obj->coeff.c;
+	len = vec_len(&(rtv->n));
+	if (len)
+	{
+		rtv->n.x /= len;
+		rtv->n.y /= len;
+		rtv->n.z /= len;
+	}
+}
+
+void	make_n(t_rtv *rtv)
+{
+	
+	if (rtv->closest->obj->type == 1)
+		make_n_for_sphere(rtv);
+	if (rtv->closest->obj->type == 2)
+		make_n_for_plane(rtv);
 }
 
 void	vecInit(t_vec *d, int x, int y)
