@@ -39,14 +39,25 @@ void	intersect_plane(t_rtv *rtv, t_vec *o, t_vec *d, t_obj *obj)
 	rtv->t2 = rtv->t1;
 }
 
+double	sq(double num)
+{
+	return (num * num);
+}
+
 void	intersect_cone(t_rtv *rtv, t_vec *o, t_vec *d, t_obj *obj)
 {
 	double	root;
 	double	der;
 	double	el;
 
-	rtv->t1 = (root + el) / der;
-	rtv->t2 = (-root + el) / der;
+	el = 2 * o->x * d->x / sq(rtv->closest->obj->coeff.a) + 2 * o->y * d->y / sq(rtv->closest->obj->coeff.b) -
+	2 * o->z * d->z / sq(rtv->closest->obj->coeff.c);
+	der = (sq(d->x / rtv->closest->obj->coeff.a) + sq(d->y / rtv->closest->obj->coeff.b)
+	- sq(d->z / rtv->closest->obj->coeff.c));
+	root = sqrt(-el - 4 * (sq(o->x / rtv->closest->obj->coeff.a) + sq(o->y / rtv->closest->obj->coeff.b)
+	- sq(o->z / rtv->closest->obj->coeff.c)) * der);
+	rtv->t1 = (root + el) / 2 / der;
+	rtv->t2 = (-root + el) / 2 / der;
 }
 
 void	intersect_obj(t_rtv *rtv, t_vec *o, t_vec *d, t_obj *obj)

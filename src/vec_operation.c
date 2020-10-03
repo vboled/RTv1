@@ -56,6 +56,8 @@ void	make_n(t_rtv *rtv)
 		make_n_for_sphere(rtv);
 	if (rtv->closest->obj->type == 2)
 		make_n_for_plane(rtv);
+		if (rtv->closest->obj->type == 3)
+	make_n_for_cone(rtv);
 }
 
 void	vecInit(t_vec *d, int x, int y)
