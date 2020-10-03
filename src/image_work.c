@@ -27,5 +27,5 @@ void	create_mlx_image(t_rtv *frac)
 	// clear_window(frac);
 	// mlx_clear_window(frac->mlx, frac->win);
 	tracer(frac);
-	mlx_put_image_to_window(frac->mlx, frac->win, frac->img, 0, 35);
+	mlx_put_image_to_window(frac->mlx, frac->win, frac->img, 0, 85);
 }

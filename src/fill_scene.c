@@ -30,15 +30,15 @@ int		addObject(t_rtv *scene, char **param)
 void	init_mlx(t_rtv *rtv)
 {
 	rtv->mlx = mlx_init();
-	rtv->win = mlx_new_window(rtv->mlx, WIDTH, HEIGHT, "win1");
+	rtv->win = mlx_new_window(rtv->mlx, WIDTH, HEIGHT + 85, "win1");
 	rtv->img = mlx_new_image(rtv->mlx, WIDTH, HEIGHT);
-	mlx_string_put(rtv->mlx, rtv->win, 1, 10, 0xFFFFFF,
+	mlx_string_put(rtv->mlx, rtv->win, 1, 5, 0xFFFFFF,
 	"Use the arrows to rotate the camera");
-	mlx_string_put(rtv->mlx, rtv->win, WIDTH / 2, 10, 0xFFFFFF,
+	mlx_string_put(rtv->mlx, rtv->win, 1, 25, 0xFFFFFF,
 	"Use A/D to move the camera along the axis x");
-	mlx_string_put(rtv->mlx, rtv->win, 1,30, 0xFFFFFF,
+	mlx_string_put(rtv->mlx, rtv->win, 1, 45, 0xFFFFFF,
 	"Use W/S to move the camera along the axis y");
-	mlx_string_put(rtv->mlx, rtv->win, WIDTH / 2, 30, 0xFFFFFF,
+	mlx_string_put(rtv->mlx, rtv->win, 1, 65, 0xFFFFFF,
 	"Use Space/LCtrl to move the camera along the axis z");
 }
 
