@@ -39,12 +39,24 @@ void	intersect_plane(t_rtv *rtv, t_vec *o, t_vec *d, t_obj *obj)
 	rtv->t2 = rtv->t1;
 }
 
+void	intersect_cone(t_rtv *rtv, t_vec *o, t_vec *d, t_obj *obj)
+{
+	double	root;
+	double	der;
+	double	el;
+
+	rtv->t1 = (root + el) / der;
+	rtv->t2 = (-root + el) / der;
+}
+
 void	intersect_obj(t_rtv *rtv, t_vec *o, t_vec *d, t_obj *obj)
 {
 	if (obj->type == 1)
 		intersect_sphere(rtv, o, d, obj);
 	if (obj->type == 2)
 		intersect_plane(rtv, o, d, obj);
+	if (obj->type == 3)
+		intersect_cone(rtv, o, d, obj);
 }
 
 int		is_shadow(t_rtv *rtv)

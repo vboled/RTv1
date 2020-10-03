@@ -4,30 +4,30 @@ void	rotation(t_rtv *rtv, int key)
 {
 	rtv->need_to_redraw = 1;
 	if (key == 126)
-		rtv->camera.tilt_x += 0.05;
+		rtv->camera.tilt_x += 0.3;
 	if (key == 125)
-		rtv->camera.tilt_x -= 0.05;
+		rtv->camera.tilt_x -= 0.3;
 	if (key == 124)
-		rtv->camera.tilt_y -= 0.05;
+		rtv->camera.tilt_y -= 0.3;
 	if (key == 123)
-		rtv->camera.tilt_y += 0.05;
+		rtv->camera.tilt_y += 0.3;
 }
 
 void	moving(t_rtv *rtv, int key)
 {
 	rtv->need_to_redraw = 1;
 	if (key == 13)
-		rtv->camera.pos.z += 0.05;
+		rtv->camera.pos.z += 0.3;
 	if (key == 1)
-		rtv->camera.pos.z -= 0.05;
+		rtv->camera.pos.z -= 0.3;
 	if (key == 0)
-		rtv->camera.pos.x -= 0.05;
+		rtv->camera.pos.x -= 0.3;
 	if (key == 2)
-		rtv->camera.pos.x += 0.05;
+		rtv->camera.pos.x += 0.3;
 	if (key == 49)
-		rtv->camera.pos.y += 0.05;
+		rtv->camera.pos.y += 0.3;
 	if (key == 256)
-		rtv->camera.pos.y -= 0.05;
+		rtv->camera.pos.y -= 0.3;
 }
 
 int		deal_hook(int key, t_rtv *param)

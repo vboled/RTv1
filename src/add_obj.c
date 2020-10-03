@@ -42,11 +42,25 @@ int		getSphereParam(t_obj *sphere, char **param)
 	return (1);
 }
 
+int		get_cone_param(t_obj *obj, char **param)
+{
+	if (!param[4])
+		return (0);
+	obj->coeff.a = ft_atoi(param[1]);
+	obj->coeff.b = ft_atoi(param[2]);
+	obj->coeff.c = ft_atoi(param[3]);
+	if (!obj->coeff.b || !obj->coeff.a || !obj->coeff.c)
+		return (0);
+	return (1);
+}
+
 int		getObjParam(t_obj *obj, char **param, int type)
 {
 	if (type == 1 && !getSphereParam(obj, param))
 		return (0);
 	if (type == 2 && !get_plane_param(obj, param))
+		return (0);
+	if (type == 3 && !get_cone_param(obj, param))
 		return (0);
 	return (1);
 }
