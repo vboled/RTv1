@@ -1,6 +1,6 @@
 #include "rtv1.h"
 
-int		getAmbientLightParam(t_light *light, char **param)
+int		get_ambient_light_param(t_light *light, char **param)
 {
 	light->type = 1;
 	if (!param[2])
@@ -11,7 +11,7 @@ int		getAmbientLightParam(t_light *light, char **param)
 	return (1);
 }
 
-int		getPointLightParam(t_light *light, char **param)
+int		get_point_light_param(t_light *light, char **param)
 {
 	light->type = 2;
 	if (!param[5])
@@ -25,7 +25,7 @@ int		getPointLightParam(t_light *light, char **param)
 	return (1);
 }
 
-int		getDirectionalLightParam(t_light *light, char **param)
+int		get_directional_light_param(t_light *light, char **param)
 {
 	light->type = 3;
 	if (!param[5])
@@ -39,20 +39,23 @@ int		getDirectionalLightParam(t_light *light, char **param)
 	return (1);
 }
 
-int		getLightParam(t_light *light, char **param)
+int		get_light_param(t_light *light, char **param)
 {
 	if (!param[1])
 		return (0);
-	if (!ft_strcmp(param[1], "ambient") && !getAmbientLightParam(light, param))
+	if (!ft_strcmp(param[1], "ambient") &&
+		!get_ambient_light_param(light, param))
 		return (0);
-	else if (!ft_strcmp(param[1], "point") && !getPointLightParam(light, param))
+	else if (!ft_strcmp(param[1], "point") &&
+		!get_point_light_param(light, param))
 		return (0);
-	else if (!ft_strcmp(param[1], "directional") && !getDirectionalLightParam(light, param))
+	else if (!ft_strcmp(param[1], "directional") &&
+		!get_directional_light_param(light, param))
 		return (0);
 	return (1);
 }
 
-int		addLight(t_light **light, char **param)
+int		add_light(t_light **light, char **param)
 {
 	t_light	*tmp;
 
@@ -61,7 +64,7 @@ int		addLight(t_light **light, char **param)
 		if (!(*light = (t_light *)malloc(sizeof(t_light))))
 			return (0);
 		(*light)->next = 0;
-		if (!getLightParam(*light, param))
+		if (!get_light_param(*light, param))
 			return (0);
 		return (1);
 	}
@@ -71,7 +74,7 @@ int		addLight(t_light **light, char **param)
 	if (!((*light)->next = (t_light *)malloc(sizeof(t_light))))
 		return (0);
 	*light = (*light)->next;
-	if (!getLightParam(*light, param))
+	if (!get_light_param(*light, param))
 		return (0);
 	*light = tmp;
 	return (1);

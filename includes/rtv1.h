@@ -99,22 +99,26 @@ typedef struct		s_rtv
 	int				need_to_redraw;
 }					t_rtv;
 
-int					getData(char *filename, t_rtv *scene);
-int					addCamera(t_rtv *scene, char **param);
-int					addLight(t_light **light, char **param);
-int					addObj(t_obj **obj, char **param, int type);
+int					get_data(char *filename, t_rtv *scene);
+int					add_camera(t_rtv *scene, char **param);
+int					add_light(t_light **light, char **param);
 int					deal_hook(int key, t_rtv *param);
 void				clear_window(t_rtv *frac);
 void				create_mlx_image(t_rtv *frac);
-void				vecInit(t_vec *d, int x, int y);
+void				vec_init(t_vec *d, int x, int y);
 void				tracer(t_rtv *rtv);
 void				make_n(t_rtv *rtv);
 void				make_p(t_rtv *rtv);
 int					make_l(t_vec *l, t_light *head, t_vec *p);
 double				dot(t_vec *lhs, t_vec *rhs);
 double				vec_len(t_vec *vec);
-int					is_shadow(t_rtv *rtv);
+int					is_shadow(t_rtv *rtv, double min);
 t_vec				reverse_vec(t_vec *vec);
+double				sq(double num);
+void				intersect_obj(t_rtv *rtv, t_vec *o, t_vec *d, t_obj *obj);
+void				vec_rot(t_rtv *rtv, t_vec *d);
+void				make_n(t_rtv *rtv);
 int					get_plane_param(t_obj *obj, char **param);
+void				intersect_cone(t_rtv *rtv, t_vec *o, t_vec *d, t_obj *obj);
 int					closest_intersection(t_rtv *rtv, t_vec *o, t_vec *d, double min);
 #endif

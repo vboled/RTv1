@@ -24,7 +24,7 @@ int		change_intensity(int color, double coeff)
 	return ((r & 0xff) << 16 | (g & 0xff) << 8 | (b & 0xff));
 }
 
-double specular(t_rtv *rtv, t_light *light, double s)
+double	specular(t_rtv *rtv, t_light *light, double s)
 {
 	t_vec	r;
 	t_vec	v;
@@ -46,7 +46,7 @@ double specular(t_rtv *rtv, t_light *light, double s)
 	return (0.0);
 }
 
-double	computeIntens(t_rtv *rtv)
+double	compute_intens(t_rtv *rtv)
 {
 	double		intens;
 	double		n_dot_l;
@@ -58,11 +58,12 @@ double	computeIntens(t_rtv *rtv)
 	{
 		if (head->type == 1)
 			intens += head->intens;
-		else if (make_l(&(rtv->l), head, &(rtv->p)) && !is_shadow(rtv))
+		else if (make_l(&(rtv->l), head, &(rtv->p)) && !is_shadow(rtv, 0.0001))
 		{
 			n_dot_l = dot(&(rtv->n), &(rtv->l));
 			if (n_dot_l > 0)
-				intens += head->intens * n_dot_l / (vec_len(&(rtv->n)) * vec_len(&(rtv->l)));
+				intens += head->intens * n_dot_l / (vec_len(&(rtv->n))
+				* vec_len(&(rtv->l)));
 			intens += specular(rtv, head, rtv->closest->obj->specular);
 		}
 		head = head->next;
@@ -70,19 +71,7 @@ double	computeIntens(t_rtv *rtv)
 	return (intens);
 }
 
-t_vec	reflect_ray(t_vec r, t_vec *n)
-{
-	double	n_dot_r;
-	t_vec	res;
-
-	n_dot_r = dot(n, &r);
-	res.x = 2 * n->x * n_dot_r - r.x;
-	res.y = 2 * n->y * n_dot_r - r.y;
-	res.z = 2 * n->z * n_dot_r - r.z;
-	return (res);
-}
-
-int		traceRay(t_rtv *rtv, t_vec *o, t_vec *d, double min)
+int		trace_ray(t_rtv *rtv, t_vec *o, t_vec *d, double min)
 {
 	double	t;
 	int		local_color;
@@ -93,19 +82,7 @@ int		traceRay(t_rtv *rtv, t_vec *o, t_vec *d, double min)
 		return (0xFFFFFF);
 	make_p(rtv);
 	make_n(rtv);
-	return (change_intensity(rtv->closest->obj->color, computeIntens(rtv)));
-}
-
-void	vec_rot(t_rtv *rtv, t_vec *d)
-{
-	double	tmp;
-
-	tmp = d->y * cos(rtv->camera.tilt_x) + d->z * sin(rtv->camera.tilt_x);
-	d->z = -d->y * sin(rtv->camera.tilt_x) + d->z * cos(rtv->camera.tilt_x);
-	d->y = tmp;
-	tmp = d->x * cos(rtv->camera.tilt_y) - d->z * sin(rtv->camera.tilt_y);
-	d->z = d->x * sin(rtv->camera.tilt_y) + d->z * cos(rtv->camera.tilt_y);
-	d->x = tmp;
+	return (change_intensity(rtv->closest->obj->color, compute_intens(rtv)));
 }
 
 void	tracer(t_rtv *rtv)
@@ -119,10 +96,10 @@ void	tracer(t_rtv *rtv)
 		i = -HEIGHT / 2;
 		while (++i < HEIGHT / 2)
 		{
-			vecInit(&(rtv->d), j, i);
+			vec_init(&(rtv->d), j, i);
 			vec_rot(rtv, &(rtv->d));
 			rtv->pix_m[(i + HEIGHT / 2) * WIDTH + j + WIDTH / 2] =
-			traceRay(rtv, &(rtv->camera.pos), &(rtv->d), 1.0);
+			trace_ray(rtv, &(rtv->camera.pos), &(rtv->d), 1.0);
 		}
 	}
 }

@@ -14,57 +14,7 @@ void	make_p(t_rtv *rtv)
 
 double	vec_len(t_vec *vec)
 {
-	return sqrtf(vec->x * vec->x + vec->y * vec->y + vec->z * vec->z);
-}
-
-void	make_n_for_sphere(t_rtv *rtv)
-{
-	double	len;
-
-	rtv->n.x = rtv->p.x - rtv->closest->obj->x;
-	rtv->n.y = rtv->p.y - rtv->closest->obj->y;
-	rtv->n.z = rtv->p.z - rtv->closest->obj->z;
-	len = vec_len(&(rtv->n));
-	if (len)
-	{
-		rtv->n.x /= len;
-		rtv->n.y /= len;
-		rtv->n.z /= len;
-	}
-}
-
-void	make_n_for_plane(t_rtv *rtv)
-{
-	double	len;
-
-	rtv->n.x = rtv->closest->obj->coeff.a;
-	rtv->n.y = -rtv->closest->obj->coeff.b;
-	rtv->n.z = rtv->closest->obj->coeff.c;
-	len = vec_len(&(rtv->n));
-	if (len)
-	{
-		rtv->n.x /= len;
-		rtv->n.y /= len;
-		rtv->n.z /= len;
-	}
-}
-
-void	make_n(t_rtv *rtv)
-{
-	
-	if (rtv->closest->obj->type == 1)
-		make_n_for_sphere(rtv);
-	if (rtv->closest->obj->type == 2)
-		make_n_for_plane(rtv);
-		if (rtv->closest->obj->type == 3)
-	make_n_for_cone(rtv);
-}
-
-void	vecInit(t_vec *d, int x, int y)
-{
-	d->x = 1.0 * x / WIDTH;
-	d->y = -1.0 * y / HEIGHT;
-	d->z = 1.0;
+	return (sqrtf(vec->x * vec->x + vec->y * vec->y + vec->z * vec->z));
 }
 
 int		make_l(t_vec *l, t_light *head, t_vec *p)
@@ -84,13 +34,14 @@ int		make_l(t_vec *l, t_light *head, t_vec *p)
 	return (1);
 }
 
-t_vec	reverse_vec(t_vec *vec)
+void	vec_rot(t_rtv *rtv, t_vec *d)
 {
-	t_vec	res;
+	double	tmp;
 
-	res.x = -vec->x;
-	res.y = -vec->y;
-	res.z = -vec->z;
-
-	return (res);
+	tmp = d->y * cos(rtv->camera.tilt_x) + d->z * sin(rtv->camera.tilt_x);
+	d->z = -d->y * sin(rtv->camera.tilt_x) + d->z * cos(rtv->camera.tilt_x);
+	d->y = tmp;
+	tmp = d->x * cos(rtv->camera.tilt_y) - d->z * sin(rtv->camera.tilt_y);
+	d->z = d->x * sin(rtv->camera.tilt_y) + d->z * cos(rtv->camera.tilt_y);
+	d->x = tmp;
 }
