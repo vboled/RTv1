@@ -26,6 +26,8 @@ int		add_object(t_rtv *scene, char **param)
 		return (add_obj(&(scene->objects), param, 2));
 	else if (!ft_strcmp(param[0], "cone:"))
 		return (add_obj(&(scene->objects), param, 3));
+	else if (!ft_strcmp(param[0], "cylinder:"))
+		return (add_obj(&(scene->objects), param, 4));
 	return (1);
 }
 

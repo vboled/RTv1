@@ -60,10 +60,10 @@ double	compute_intens(t_rtv *rtv)
 			intens += head->intens;
 		else if (make_l(&(rtv->l), head, &(rtv->p)) && !is_shadow(rtv, 0.0001))
 		{
-			n_dot_l = dot(&(rtv->n), &(rtv->l));
+			n_dot_l = dot(&rtv->n, &rtv->l);
 			if (n_dot_l > 0)
-				intens += head->intens * n_dot_l / (vec_len(&(rtv->n))
-				* vec_len(&(rtv->l)));
+				intens += head->intens * n_dot_l / (vec_len(&rtv->n)
+				* vec_len(&rtv->l));
 			intens += specular(rtv, head, rtv->closest->obj->specular);
 		}
 		head = head->next;

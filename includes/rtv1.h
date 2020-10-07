@@ -47,21 +47,12 @@ typedef struct      s_camera
 	double			tilt_y;
 }					t_camera;
 
-typedef struct		s_plane
-{
-	double			a;
-	double			b;
-	double			c;
-	double			d;
-}					t_plane;
-
 typedef struct		s_obj
 {
 	int				type;
-	double			x;
-	double			y;
-	double			z;
-	t_plane			coeff;
+	t_vec			dir;
+	t_vec			point;
+	double			angle;
 	double			scale;
 	double			specular;
 	double			reflective;
@@ -115,9 +106,15 @@ double				vec_len(t_vec *vec);
 int					is_shadow(t_rtv *rtv, double min);
 t_vec				reverse_vec(t_vec *vec);
 double				sq(double num);
+void				calculate_t(t_rtv *rtv, double k1, double k2, double k3);
 void				intersect_obj(t_rtv *rtv, t_vec *o, t_vec *d, t_obj *obj);
 void				vec_rot(t_rtv *rtv, t_vec *d);
 void				make_n(t_rtv *rtv);
+t_vec				vec_dif(const t_vec *lhs, const t_vec *rhs);
+void				vec_copy(const t_vec *source, t_vec *dist);
+void				vec_norm(t_vec *vec);
+t_vec				vec_mult_num(const t_vec *vec, double num);
+int					add_obj(t_obj **obj, char **param, int type);
 int					get_plane_param(t_obj *obj, char **param);
 void				intersect_cone(t_rtv *rtv, t_vec *o, t_vec *d, t_obj *obj);
 int					closest_intersection(t_rtv *rtv, t_vec *o, t_vec *d, double min);

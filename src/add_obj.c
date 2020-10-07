@@ -28,9 +28,9 @@ int		get_sphere_param(t_obj *sphere, char **param)
 	if (!param[7])
 		return (0);
 	sphere->type = 1;
-	sphere->x = ft_atoi(param[1]);
-	sphere->y = ft_atoi(param[2]);
-	sphere->z = ft_atoi(param[3]);
+	sphere->point.x = ft_atoi(param[1]);
+	sphere->point.y = ft_atoi(param[2]);
+	sphere->point.z = ft_atoi(param[3]);
 	sphere->scale = ft_atoi(param[4]);
 	sphere->color = ft_atoi(param[5]);
 	sphere->specular = ft_atoi(param[6]);
@@ -45,23 +45,47 @@ int		get_sphere_param(t_obj *sphere, char **param)
 int		get_cone_param(t_obj *obj, char **param)
 {
 	obj->type = 3;
-	if (!param[9])
+	if (!param[10])
 		return (0);
-	obj->x = ft_atoi(param[1]);
-	obj->y = ft_atoi(param[2]);
-	obj->z = ft_atoi(param[3]);
-	obj->coeff.a = ft_atoi(param[4]);
-	obj->coeff.b = ft_atoi(param[5]);
-	obj->coeff.c = ft_atoi(param[6]);
-	obj->color = ft_atoi(param[7]);
-	obj->specular = ft_atoi(param[8]);
-	obj->reflective = ft_atoi(param[9]) / 100.0;
+	obj->point.x = ft_atoi(param[1]);
+	obj->point.y = ft_atoi(param[2]);
+	obj->point.z = ft_atoi(param[3]);
+	obj->dir.x = ft_atoi(param[4]);
+	obj->dir.y = ft_atoi(param[5]);
+	obj->dir.z = ft_atoi(param[6]);
+	vec_norm(&obj->dir);
+	obj->angle = ft_atoi(param[7]) / 100;
+	obj->color = ft_atoi(param[8]);
+	obj->specular = ft_atoi(param[9]);
+	obj->reflective = ft_atoi(param[10]) / 100.0;
 	if (obj->reflective > 1.0)
 		obj->reflective = 1.0;
 	if (obj->reflective < 0)
 		obj->reflective = 0.0;
-	if (!obj->coeff.b || !obj->coeff.a || !obj->coeff.c)
+	return (1);
+	return (1);
+}
+
+int		get_cylinder_param(t_obj *obj, char **param)
+{
+	if (!param[10])
 		return (0);
+	obj->type = 4;
+	obj->point.x = ft_atoi(param[1]);
+	obj->point.y = ft_atoi(param[2]);
+	obj->point.z = ft_atoi(param[3]);
+	obj->dir.x = ft_atoi(param[4]);
+	obj->dir.y = ft_atoi(param[5]);
+	obj->dir.z = ft_atoi(param[6]);
+	vec_norm(&obj->dir);
+	obj->scale = ft_atoi(param[7]);
+	obj->color = ft_atoi(param[8]);
+	obj->specular = ft_atoi(param[9]);
+	obj->reflective = ft_atoi(param[10]) / 100.0;
+	if (obj->reflective > 1.0)
+		obj->reflective = 1.0;
+	if (obj->reflective < 0)
+		obj->reflective = 0.0;
 	return (1);
 }
 
@@ -72,6 +96,8 @@ int		get_obj_param(t_obj *obj, char **param, int type)
 	if (type == 2 && !get_plane_param(obj, param))
 		return (0);
 	if (type == 3 && !get_cone_param(obj, param))
+		return (0);
+	if (type == 4 && !get_cylinder_param(obj, param))
 		return (0);
 	return (1);
 }

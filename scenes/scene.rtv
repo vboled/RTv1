@@ -1,9 +1,4 @@
 camera: 0 0 0
-light: point 60 2 1 0
+light: point 40 0 0 0
 light: ambient 20
-cone: 0 0 0 1 1 1 65522 500 20
-sphere: 0 -1 3 1 16711680 500 20
-sphere: 2 0 4 1 255 500 30	 
-sphere: -2 0 4 1 65280 10 40
-sphere: 0 -5001 0 5000 16776960 1000 50
-plane: 0 -1 3 2 0 4 -2 0 4 13047173 10 20
+cylinder: 0 0 3 1 0 0 1 16711680 500 30
