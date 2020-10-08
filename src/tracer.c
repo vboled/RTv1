@@ -99,7 +99,7 @@ void	tracer(t_rtv *rtv)
 			vec_init(&(rtv->d), j, i);
 			vec_rot(rtv, &(rtv->d));
 			rtv->pix_m[(i + HEIGHT / 2) * WIDTH + j + WIDTH / 2] =
-			trace_ray(rtv, &(rtv->camera.pos), &(rtv->d), 1.0);
+			trace_ray(rtv, &(rtv->camera.pos), &(rtv->d), 0.03);
 		}
 	}
 }
