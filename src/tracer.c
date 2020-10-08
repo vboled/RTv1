@@ -63,6 +63,7 @@ double	compute_intens(t_rtv *rtv)
 	double		intens;
 	double		n_dot_l;
 	t_light		*head;
+	double		max;
 
 	intens = 0.0;
 	head = rtv->lights;
@@ -70,7 +71,8 @@ double	compute_intens(t_rtv *rtv)
 	{
 		if (head->type == 1)
 			intens += head->intens;
-		else if (make_l(&(rtv->l), head, &(rtv->p)) && !is_shadow(rtv, 0.001, head))
+		else if (make_l(&(rtv->l), head, &(rtv->p), &max) && !is_shadow(rtv,
+				0.001, max, head))
 		{
 			n_dot_l = dot(&rtv->n, &rtv->l);
 			if (n_dot_l > 0)

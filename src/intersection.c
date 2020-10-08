@@ -39,26 +39,6 @@ void	intersect_sphere(t_rtv *rtv, t_vec *o, t_vec *d, t_obj *obj)
 	dot(&oc, &oc) - sq(obj->scale));
 }
 
-void	intersect_plane(t_rtv *rtv, t_vec *o, t_vec *d, t_obj *obj)
-{
-	t_vec	x;
-	double	x_dot_n;
-	double	d_dot_n;
-
-	x = vec_dif(o, &obj->point);
-	vec_norm(&obj->dir);
-	d_dot_n = dot(d, &obj->dir);
-	if (d_dot_n == 0)
-	{
-		rtv->t1 = MAX_T;
-		rtv->t2 = MAX_T;
-		return ;
-	}
-	x_dot_n = dot(&x,  &obj->dir);
-	rtv->t1 = -x_dot_n / d_dot_n;
-	rtv->t2 = rtv->t1;
-}
-
 void	intersect_cylinder(t_rtv *rtv, t_vec *o, t_vec *d, t_obj *obj)
 {
 	t_vec	x;

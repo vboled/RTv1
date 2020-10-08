@@ -63,6 +63,7 @@ int		deal_hook(int key, t_rtv *param)
 		moving(param, key);
 	if (key == 53 || key == 65307)
 	{
+		memory_free(param);
 		write(1, "EXIT\n", 5);
 		exit(0);
 	}

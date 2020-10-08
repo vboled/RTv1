@@ -36,3 +36,14 @@ int		get_plane_param(t_obj *obj, char **param)
 		obj->reflective = 0.0;
 	return (1);
 }
+
+int		add_camera(t_rtv *scene, char **param)
+{
+	if (param[1])
+		scene->camera.pos.x = ft_atoi(param[1]);
+	if (param[2])
+		scene->camera.pos.y = ft_atoi(param[2]);
+	if (param[3])
+		scene->camera.pos.z = ft_atoi(param[3]);
+	return (1);
+}

@@ -45,9 +45,9 @@ int		get_directional_light_param(t_light *light, char **param)
 	light->intens = (double)ft_atoi(param[2]) / 100.0;
 	if (light->intens > 1.0)
 		light->intens = 1.0;
-	light->dirX = ft_atoi(param[3]);
-	light->dirY = ft_atoi(param[4]);
-	light->dirZ = ft_atoi(param[5]);
+	light->dir_x = ft_atoi(param[3]);
+	light->dir_y = ft_atoi(param[4]);
+	light->dir_z = ft_atoi(param[5]);
 	return (1);
 }
 

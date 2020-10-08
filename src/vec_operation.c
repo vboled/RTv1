@@ -29,19 +29,21 @@ double	vec_len(t_vec *vec)
 	return (sqrtf(vec->x * vec->x + vec->y * vec->y + vec->z * vec->z));
 }
 
-int		make_l(t_vec *l, t_light *head, t_vec *p)
+int		make_l(t_vec *l, t_light *head, t_vec *p, double *max)
 {
 	if (head->type == 2)
 	{
 		l->x = head->x - p->x;
 		l->y = head->y - p->y;
 		l->z = head->z - p->z;
+		*max = 1.0;
 	}
 	else
 	{
-		l->x = head->dirX;
-		l->y = head->dirY;
-		l->z = head->dirZ;
+		l->x = head->dir_x;
+		l->y = head->dir_y;
+		l->z = head->dir_z;
+		*max = MAX_T;
 	}
 	return (1);
 }

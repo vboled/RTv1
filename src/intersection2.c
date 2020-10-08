@@ -12,17 +12,14 @@
 
 #include "rtv1.h"
 
-int		is_shadow(t_rtv *rtv, double min, t_light *light)
+int		is_shadow(t_rtv *rtv, double min, double max, t_light *light)
 {
 	t_obj	*head;
 	t_obj	*obj;
 	double	closest_t;
 
 	head = rtv->objects;
-	if (light->type == 3)
-		closest_t = MAX_T;
-	else
-		closest_t = 1.0;
+	closest_t = max;
 	obj = 0;
 	while (head)
 	{
@@ -57,4 +54,39 @@ void	intersect_cone(t_rtv *rtv, t_vec *o, t_vec *d, t_obj *obj)
 		dot(&x, &obj->dir);
 	c = dot(&x, &x) - (1 + sq(obj->angle)) * sq(dot(&x, &obj->dir));
 	calculate_t(rtv, a, 2 * b, c);
+}
+
+void	intersect_plane(t_rtv *rtv, t_vec *o, t_vec *d, t_obj *obj)
+{
+	t_vec	x;
+	double	x_dot_n;
+	double	d_dot_n;
+
+	x = vec_dif(o, &obj->point);
+	vec_norm(&obj->dir);
+	d_dot_n = dot(d, &obj->dir);
+	if (d_dot_n == 0)
+	{
+		rtv->t1 = MAX_T;
+		rtv->t2 = MAX_T;
+		return ;
+	}
+	x_dot_n = dot(&x, &obj->dir);
+	rtv->t1 = -x_dot_n / d_dot_n;
+	rtv->t2 = rtv->t1;
+}
+
+double	sq(double num)
+{
+	return (num * num);
+}
+
+t_vec	reverse_vec(t_vec *vec)
+{
+	t_vec	res;
+
+	res.x = -vec->x;
+	res.y = -vec->y;
+	res.z = -vec->z;
+	return (res);
 }

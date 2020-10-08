@@ -12,9 +12,36 @@
 
 #include "rtv1.h"
 
+int		is_valid_str(char **str)
+{
+	int i;
+	int	j;
+
+	if (!str[0])
+		return (0);
+	if (!ft_strcmp(str[0], "light:"))
+		i = 2;
+	else
+		i = 1;
+	while (str[i])
+	{
+		j = 0;
+		while (str[i][j] != '\0')
+		{
+			if ((str[i][j] < '0' || str[i][j] > '9') && str[i][j] != '-')
+			{
+				return (0);
+			}
+			j++;
+		}
+		i++;
+	}
+	return (1);
+}
+
 int		add_object(t_rtv *scene, char **param)
 {
-	if (param[0] == NULL)
+	if (!is_valid_str(param))
 		return (0);
 	if (!ft_strcmp(param[0], "camera:"))
 		return (add_camera(scene, param));
@@ -31,15 +58,19 @@ int		add_object(t_rtv *scene, char **param)
 	return (1);
 }
 
-void	init_mlx(t_rtv *rtv)
+int		init_mlx(t_rtv *rtv)
 {
-	rtv->mlx = mlx_init();
-	rtv->win = mlx_new_window(rtv->mlx, WIDTH, HEIGHT + 85, "win1");
-	rtv->img = mlx_new_image(rtv->mlx, WIDTH, HEIGHT);
+	if (!(rtv->mlx = mlx_init()))
+		return (0);
+	if (!(rtv->win = mlx_new_window(rtv->mlx, WIDTH, HEIGHT + 85, "win1")))
+		return (0);
+	if (!(rtv->img = mlx_new_image(rtv->mlx, WIDTH, HEIGHT)))
+		return (0);
 	mlx_string_put(rtv->mlx, rtv->win, 1, 5, 0xFFFFFF,
 	"Use the arrows to rotate the camera");
 	mlx_string_put(rtv->mlx, rtv->win, 1, 45, 0xFFFFFF,
 	"Use W/S to move the camera");
+	return (1);
 }
 
 int		get_data(char *filename, t_rtv *scene)
@@ -65,6 +96,7 @@ int		get_data(char *filename, t_rtv *scene)
 		}
 		free(line);
 	}
-	init_mlx(scene);
+	if (!init_mlx(scene))
+		return (0);
 	return (1);
 }
