@@ -1,14 +1,28 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   intersection2.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gweasley <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/10/08 16:09:59 by gweasley          #+#    #+#             */
+/*   Updated: 2020/10/08 16:10:00 by gweasley         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "rtv1.h"
 
-int		is_shadow(t_rtv *rtv, double min)
+int		is_shadow(t_rtv *rtv, double min, t_light *light)
 {
-	return (0);
 	t_obj	*head;
 	t_obj	*obj;
 	double	closest_t;
 
 	head = rtv->objects;
-	closest_t = MAX_T;
+	if (light->type == 3)
+		closest_t = MAX_T;
+	else
+		closest_t = 1.0;
 	obj = 0;
 	while (head)
 	{

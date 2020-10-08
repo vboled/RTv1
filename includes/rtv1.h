@@ -103,7 +103,7 @@ void				make_p(t_rtv *rtv);
 int					make_l(t_vec *l, t_light *head, t_vec *p);
 double				dot(t_vec *lhs, t_vec *rhs);
 double				vec_len(t_vec *vec);
-int					is_shadow(t_rtv *rtv, double min);
+int					is_shadow(t_rtv *rtv, double min, t_light *light);
 t_vec				reverse_vec(t_vec *vec);
 double				sq(double num);
 void				calculate_t(t_rtv *rtv, double k1, double k2, double k3);

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   tracer.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gweasley <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/10/08 16:10:23 by gweasley          #+#    #+#             */
+/*   Updated: 2020/10/08 16:10:24 by gweasley         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "rtv1.h"
 
 int		change_intensity(int color, double coeff)
@@ -58,7 +70,7 @@ double	compute_intens(t_rtv *rtv)
 	{
 		if (head->type == 1)
 			intens += head->intens;
-		else if (make_l(&(rtv->l), head, &(rtv->p)) && !is_shadow(rtv, 0.0001))
+		else if (make_l(&(rtv->l), head, &(rtv->p)) && !is_shadow(rtv, 0.001, head))
 		{
 			n_dot_l = dot(&rtv->n, &rtv->l);
 			if (n_dot_l > 0)
@@ -74,9 +86,6 @@ double	compute_intens(t_rtv *rtv)
 int		trace_ray(t_rtv *rtv, t_vec *o, t_vec *d, double min)
 {
 	double	t;
-	int		local_color;
-	t_vec	reflected;
-	int		reflected_color;
 
 	if (!closest_intersection(rtv, o, d, min))
 		return (0xFFFFFF);
