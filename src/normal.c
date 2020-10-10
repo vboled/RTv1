@@ -22,7 +22,7 @@ void	make_n_for_sphere(t_rtv *rtv)
 
 void	make_n_for_plane(t_rtv *rtv)
 {
-	// vec_copy(&rtv->n, &rtv->closest->obj->dir);
+	vec_copy(&rtv->closest->obj->dir, &rtv->n);
 }
 
 void	make_n_for_cone(t_rtv *rtv)

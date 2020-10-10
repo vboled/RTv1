@@ -18,7 +18,6 @@
 # define WIDTH 600
 # define HEIGHT 600
 # define MAX_T 2147483647
-# define MIN_T 1
 
 typedef struct		s_vec
 {
@@ -100,13 +99,14 @@ void				tracer(t_rtv *rtv);
 void				make_n(t_rtv *rtv);
 void				make_p(t_rtv *rtv);
 int					make_l(t_vec *l, t_light *head, t_vec *p, double *max);
-double				dot(t_vec *lhs, t_vec *rhs);
-double				vec_len(t_vec *vec);
+double				dot(const t_vec *lhs, const t_vec *rhs);
+double				vec_len(const t_vec *vec);
 int					is_shadow(t_rtv *rtv, double min, double max, t_light *light);
 t_vec				reverse_vec(t_vec *vec);
 int					add_camera(t_rtv *scene, char **param);
 void				intersect_plane(t_rtv *rtv, t_vec *o, t_vec *d, t_obj *obj);
 double				sq(double num);
+void				free_split_str(char **str);
 void				calculate_t(t_rtv *rtv, double k1, double k2, double k3);
 void				intersect_obj(t_rtv *rtv, t_vec *o, t_vec *d, t_obj *obj);
 void				vec_rot(t_rtv *rtv, t_vec *d);

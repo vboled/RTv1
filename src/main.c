@@ -31,27 +31,36 @@ int		scene_init(t_rtv *scene)
 
 void	memory_free(t_rtv *rtv)
 {
-	t_obj	*head;
 	t_obj	*next;
+	t_light	*nl;
 
-	head = rtv->objects;
-	while (head)
+	while (rtv->objects)
 	{
-		next = head->next;
-		free(head);
-		head = next;
+		next = rtv->objects->next;
+		free(rtv->objects);
+		rtv->objects = next;
 	}
-	if (rtv->lights)
+	while (rtv->lights)
+	{
+		nl = rtv->lights->next;
 		free(rtv->lights);
+		rtv->lights = nl;
+	}
 	if (rtv->closest)
 		free(rtv->closest);
 	if (rtv->mlx)
 		free(rtv->mlx);
 	if (rtv->win)
 		free(rtv->win);
-	if (rtv->pix_m)
-		free(rtv->pix_m);
+	if (rtv->img)
+		free(rtv->img);
 }
+
+// void	x_close(t_rtv *param)
+// {
+// 	memory_free(param);
+// 	exit(0);
+// }
 
 int		main(int argc, char **argv)
 {
@@ -64,6 +73,7 @@ int		main(int argc, char **argv)
 		return (0);
 	}
 	mlx_hook(scene.win, 2, 5, deal_hook, &scene);
+	// mlx_hook(scene.win, 17, 1, x_close, &scene);
 	create_mlx_image(&scene);
 	mlx_loop(scene.mlx);
 	return (0);

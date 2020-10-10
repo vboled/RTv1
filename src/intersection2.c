@@ -63,7 +63,6 @@ void	intersect_plane(t_rtv *rtv, t_vec *o, t_vec *d, t_obj *obj)
 	double	d_dot_n;
 
 	x = vec_dif(o, &obj->point);
-	vec_norm(&obj->dir);
 	d_dot_n = dot(d, &obj->dir);
 	if (d_dot_n == 0)
 	{

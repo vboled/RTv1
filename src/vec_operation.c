@@ -12,7 +12,7 @@
 
 #include "rtv1.h"
 
-double	dot(t_vec *lhs, t_vec *rhs)
+double	dot(const t_vec *lhs, const t_vec *rhs)
 {
 	return (lhs->x * rhs->x + lhs->y * rhs->y + lhs->z * rhs->z);
 }
@@ -24,7 +24,7 @@ void	make_p(t_rtv *rtv)
 	rtv->p.z = rtv->camera.pos.z + rtv->closest->t * rtv->d.z;
 }
 
-double	vec_len(t_vec *vec)
+double	vec_len(const t_vec *vec)
 {
 	return (sqrtf(vec->x * vec->x + vec->y * vec->y + vec->z * vec->z));
 }

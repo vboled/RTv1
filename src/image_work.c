@@ -30,6 +30,22 @@ void	clear_window(t_rtv *frac)
 	}
 }
 
+void	free_split_str(char **str)
+{
+	int		i;
+
+	i = 0;
+
+	if (!str)
+		return;
+	while (str[i] != NULL)
+	{
+		free(str[i]);
+		i++;
+	}
+	free(str);
+}
+
 void	create_mlx_image(t_rtv *frac)
 {
 	frac->pix_m = (int *)mlx_get_data_addr(frac->img,

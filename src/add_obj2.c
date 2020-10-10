@@ -27,6 +27,8 @@ int		get_plane_param(t_obj *obj, char **param)
 	obj->dir.x = ft_atoi(param[4]);
 	obj->dir.y = ft_atoi(param[5]);
 	obj->dir.z = ft_atoi(param[6]);
+	vec_norm(&obj->dir);
+	printf("%f, %f, %f\n", obj->dir.x, obj->dir.y, obj->dir.z);
 	obj->color = ft_atoi(param[7]);
 	obj->specular = ft_atoi(param[7]);
 	obj->reflective = ft_atoi(param[9]) / 100.0;

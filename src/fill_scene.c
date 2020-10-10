@@ -73,11 +73,28 @@ int		init_mlx(t_rtv *rtv)
 	return (1);
 }
 
+// void	print(char **str)
+// {
+// 	int		i;
+
+// 	i = 0;
+// 	if (!str)
+// 		return;
+// 	while (str[i] != NULL)
+// 	{
+// 		printf("%s, ", str[i]);
+// 		// free(str[i]);
+// 		i++;
+// 	}
+// 	printf("\n");
+// }
+
 int		get_data(char *filename, t_rtv *scene)
 {
 	int		fd;
 	int		ret;
 	char	*line;
+	char	**split_str;
 
 	fd = open(filename, O_RDONLY);
 	while (1)
@@ -89,11 +106,15 @@ int		get_data(char *filename, t_rtv *scene)
 			close(fd);
 			break ;
 		}
-		if (ret == -1 || !add_object(scene, ft_strsplit(line, ' ')))
+		split_str = ft_strsplit(line, ' ');
+		if (ret == -1 || !add_object(scene, split_str))
 		{
+			free_split_str(split_str);
 			close(fd);
 			return (0);
 		}
+		// print(split_str);
+		// free_split_str(split_str);
 		free(line);
 	}
 	if (!init_mlx(scene))
