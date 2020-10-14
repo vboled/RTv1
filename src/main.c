@@ -56,11 +56,10 @@ void	memory_free(t_rtv *rtv)
 		free(rtv->img);
 }
 
-// void	x_close(t_rtv *param)
-// {
-// 	memory_free(param);
-// 	exit(0);
-// }
+ void	x_close(int key, t_rtv *param)
+ {
+ 	exit(0);
+ }
 
 int		main(int argc, char **argv)
 {
