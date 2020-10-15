@@ -28,6 +28,7 @@ FUNCTIONS= ft_memset \
 			ft_toupper \
 			ft_tolower \
 			ft_memalloc \
+			ft_strnlen \
 			ft_memdel \
 			ft_strnew \
 			ft_strdel \
@@ -44,6 +45,7 @@ FUNCTIONS= ft_memset \
 			ft_strsplit \
 			ft_itoa \
 			ft_putchar \
+			ft_strndup \
 			ft_putstr \
 			ft_putendl \
 			ft_putnbr \

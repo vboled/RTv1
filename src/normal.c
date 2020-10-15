@@ -59,8 +59,6 @@ void	make_n_for_cylinder(t_rtv *rtv)
 
 void	make_n(t_rtv *rtv)
 {
-	double	len;
-
 	if (rtv->closest->obj->type == 1)
 		make_n_for_sphere(rtv);
 	if (rtv->closest->obj->type == 2)

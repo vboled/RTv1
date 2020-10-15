@@ -72,7 +72,7 @@ double	compute_intens(t_rtv *rtv)
 		if (head->type == 1)
 			intens += head->intens;
 		else if (make_l(&(rtv->l), head, &(rtv->p), &max) && !is_shadow(rtv,
-				0.0000001, max, head))
+				0.0000001, max))
 		{
 			n_dot_l = dot(&rtv->n, &rtv->l);
 			if (n_dot_l > 0)
@@ -87,9 +87,7 @@ double	compute_intens(t_rtv *rtv)
 
 int		trace_ray(t_rtv *rtv, t_vec *o, t_vec *d, double min)
 {
-	double	t;
-
-	if (!closest_intersection(rtv, o, d, min))
+if (!closest_intersection(rtv, o, d, min))
 		return (0xFFFFFF);
 	make_p(rtv);
 	make_n(rtv);

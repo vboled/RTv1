@@ -12,8 +12,11 @@
 
 #ifndef RTV1_H
 # define RTV1_H
-# include "get_next_line.h"
 # include <mlx.h>
+# define BUF_SIZE 1
+# define FD_MAX	1024
+# include "../libs/libft/libft.h"
+# include <fcntl.h>
 # include <math.h>
 # define WIDTH 600
 # define HEIGHT 600
@@ -87,6 +90,7 @@ typedef struct		s_rtv
 	int				need_to_redraw;
 }					t_rtv;
 
+int					get_next_line(const int fd, char **line);
 void				memory_free(t_rtv *rtv);
 int					get_data(char *filename, t_rtv *scene);
 int					add_camera(t_rtv *scene, char **param);
@@ -101,7 +105,7 @@ void				make_p(t_rtv *rtv);
 int					make_l(t_vec *l, t_light *head, t_vec *p, double *max);
 double				dot(const t_vec *lhs, const t_vec *rhs);
 double				vec_len(const t_vec *vec);
-int					is_shadow(t_rtv *rtv, double min, double max, t_light *light);
+int					is_shadow(t_rtv *rtv, double min, double max);
 t_vec				reverse_vec(t_vec *vec);
 int					add_camera(t_rtv *scene, char **param);
 void				intersect_plane(t_rtv *rtv, t_vec *o, t_vec *d, t_obj *obj);

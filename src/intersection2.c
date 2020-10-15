@@ -12,7 +12,7 @@
 
 #include "rtv1.h"
 
-int		is_shadow(t_rtv *rtv, double min, double max, t_light *light)
+int		is_shadow(t_rtv *rtv, double min, double max)
 {
 	t_obj	*head;
 	t_obj	*obj;

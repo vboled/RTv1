@@ -30,7 +30,6 @@ void	calculate_t(t_rtv *rtv, double k1, double k2, double k3)
 void	intersect_sphere(t_rtv *rtv, t_vec *o, t_vec *d, t_obj *obj)
 {
 	t_vec	oc;
-	double	disk;
 
 	oc.x = o->x - obj->point.x;
 	oc.y = o->y - obj->point.y;

@@ -14,10 +14,6 @@
 
 int		get_plane_param(t_obj *obj, char **param)
 {
-	t_vec	p1;
-	t_vec	p2;
-	t_vec	p3;
-
 	if (!param[9])
 		return (0);
 	obj->type = 2;
@@ -28,7 +24,6 @@ int		get_plane_param(t_obj *obj, char **param)
 	obj->dir.y = ft_atoi(param[5]);
 	obj->dir.z = ft_atoi(param[6]);
 	vec_norm(&obj->dir);
-	printf("%f, %f, %f\n", obj->dir.x, obj->dir.y, obj->dir.z);
 	obj->color = ft_atoi(param[7]);
 	obj->specular = ft_atoi(param[7]);
 	obj->reflective = ft_atoi(param[9]) / 100.0;

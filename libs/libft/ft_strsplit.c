@@ -95,7 +95,7 @@ char		**ft_strsplit(char const *s, char c)
 	i = 0;
 	while (s[i] != '\0')
 	{
-		if (!(str[k++] = (char *)malloc(sizeof(char *)
+		if (!(str[k++] = (char *)malloc(sizeof(char)
 						* word_length(s, c, &i) + 1)))
 		{
 			ft_clean(str, k - 1);

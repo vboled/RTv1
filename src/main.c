@@ -66,6 +66,7 @@ int		main(int argc, char **argv)
 {
 	t_rtv	scene;
 
+	argc++;
 	if (!scene_init(&scene) || !get_data(argv[1], &scene))
 	{
 		write(1, "ERROR\n", 6);

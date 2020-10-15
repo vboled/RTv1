@@ -73,7 +73,7 @@ int		init_mlx(t_rtv *rtv)
 	return (1);
 }
 
-void	print(char **str)
+static void	clean_split(char **str)
 {
 	int		i;
 
@@ -82,12 +82,10 @@ void	print(char **str)
 		return;
 	while (str[i] != NULL)
 	{
-		write(1, str[i], 1);
-		printf("%s, ", str[i]);
-		// free(str[i]);
+		free(str[i]);
 		i++;
 	}
-	printf("\n");
+	free(str);
 }
 
 int		get_data(char *filename, t_rtv *scene)
@@ -110,15 +108,16 @@ int		get_data(char *filename, t_rtv *scene)
 		split_str = ft_strsplit(line, ' ');
 		if (ret == -1 || !add_object(scene, split_str))
 		{
-			free_split_str(split_str);
+			clean_split(split_str);
 			close(fd);
 			return (0);
 		}
-		print(split_str);
-		// free_split_str(split_str);
+		clean_split(split_str);
 		free(line);
 	}
+	return 0;
 	if (!init_mlx(scene))
 		return (0);
 	return (1);
 }
+
