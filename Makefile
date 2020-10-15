@@ -6,7 +6,7 @@ OBJDIR	= ./obj/
 
 #GCC = gcc -Wall -Wextra -Werror
 
-GCC = gcc -Wall -Wextra -Werror
+GCC = gcc
 NAME = RTv1
 SRCS = main.c \
 	   get_next_line.c \

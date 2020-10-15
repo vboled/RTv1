@@ -56,11 +56,11 @@ void	memory_free(t_rtv *rtv)
 		free(rtv->img);
 }
 
-// void	x_close(t_rtv *param)
-// {
-// 	memory_free(param);
-// 	exit(0);
-// }
+int		x_close(t_rtv *param)
+{
+	memory_free(param);
+	exit(0);
+}
 
 int		main(int argc, char **argv)
 {
@@ -74,7 +74,7 @@ int		main(int argc, char **argv)
 		return (0);
 	}
 	mlx_hook(scene.win, 2, 5, deal_hook, &scene);
-	// mlx_hook(scene.win, 17, 1, x_close, &scene);
+	mlx_hook(scene.win, 17, 1, x_close, &scene);
 	create_mlx_image(&scene);
 	mlx_loop(scene.mlx);
 	return (0);

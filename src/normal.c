@@ -44,14 +44,14 @@ void	make_n_for_cone(t_rtv *rtv)
 
 void	make_n_for_cylinder(t_rtv *rtv)
 {
-	double m;
-	t_vec  x;
-	t_vec  v_m;
+	double	m;
+	t_vec	x;
+	t_vec	v_m;
 
 	x = vec_dif(&rtv->camera.pos, &rtv->closest->obj->point);
 	m = dot(&rtv->d, &rtv->closest->obj->dir) * rtv->closest->t +
 	dot(&x, &rtv->closest->obj->dir);
-	v_m = vec_mult_num(&rtv->closest->obj->dir, m);	
+	v_m = vec_mult_num(&rtv->closest->obj->dir, m);
 	rtv->n = vec_dif(&rtv->p, &rtv->closest->obj->point);
 	rtv->n = vec_dif(&rtv->n, &v_m);
 	vec_norm(&rtv->n);

@@ -87,7 +87,7 @@ double	compute_intens(t_rtv *rtv)
 
 int		trace_ray(t_rtv *rtv, t_vec *o, t_vec *d, double min)
 {
-if (!closest_intersection(rtv, o, d, min))
+	if (!closest_intersection(rtv, o, d, min))
 		return (0xFFFFFF);
 	make_p(rtv);
 	make_n(rtv);

@@ -93,25 +93,24 @@ int		get_obj_param(t_obj *obj, char **param, int type)
 
 int		add_obj(t_obj **obj, char **param, int type)
 {
-	t_obj	*tmp;
+	t_obj	*current;
+	t_obj	*new_node;
 
-	if (!(*obj))
+	if (!(new_node = (t_obj *)malloc(sizeof(t_obj))))
+		return (0);
+	new_node->next = NULL;
+	if (!get_obj_param(new_node, param, type))
+		return (0);
+	current = *obj;
+	if (current == NULL)
 	{
-		if (!(*obj = (t_obj *)malloc(sizeof(t_obj))))
-			return (0);
-		(*obj)->next = 0;
-		if (!get_obj_param(*obj, param, type))
-			return (0);
-		return (1);
+		*obj = new_node;
 	}
-	tmp = *obj;
-	while ((*obj)->next)
-		*obj = (*obj)->next;
-	if (!((*obj)->next = (t_obj *)malloc(sizeof(t_obj))))
-		return (0);
-	*obj = (*obj)->next;
-	if (!get_obj_param(*obj, param, type))
-		return (0);
-	*obj = tmp;
+	else
+	{
+		while (current->next != NULL)
+			current = current->next;
+		current->next = new_node;
+	}
 	return (1);
 }

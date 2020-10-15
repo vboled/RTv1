@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fyuko <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: gweasley <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/16 19:54:01 by gweasley          #+#    #+#             */
 /*   Updated: 2020/09/06 16:38:31 by gweasley         ###   ########.fr       */

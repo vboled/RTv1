@@ -69,25 +69,24 @@ int		get_light_param(t_light *light, char **param)
 
 int		add_light(t_light **light, char **param)
 {
-	t_light	*tmp;
+	t_light	*current;
+	t_light	*new_node;
 
-	if (!(*light))
+	if (!(new_node = (t_light *)malloc(sizeof(t_light))))
+		return (0);
+	new_node->next = NULL;
+	if (!get_light_param(new_node, param))
+		return (0);
+	current = *light;
+	if (current == NULL)
 	{
-		if (!(*light = (t_light *)malloc(sizeof(t_light))))
-			return (0);
-		(*light)->next = 0;
-		if (!get_light_param(*light, param))
-			return (0);
-		return (1);
+		*light = new_node;
 	}
-	tmp = *light;
-	while ((*light)->next)
-		*light = (*light)->next;
-	if (!((*light)->next = (t_light *)malloc(sizeof(t_light))))
-		return (0);
-	*light = (*light)->next;
-	if (!get_light_param(*light, param))
-		return (0);
-	*light = tmp;
+	else
+	{
+		while (current->next != NULL)
+			current = current->next;
+		current->next = new_node;
+	}
 	return (1);
 }

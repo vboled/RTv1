@@ -12,7 +12,7 @@
 
 #include "rtv1.h"
 
-int		is_valid_str(char **str)
+int			is_valid_str(char **str)
 {
 	int i;
 	int	j;
@@ -39,26 +39,45 @@ int		is_valid_str(char **str)
 	return (1);
 }
 
-int		add_object(t_rtv *scene, char **param)
+static void	clean_split(char **str)
 {
-	if (!is_valid_str(param))
-		return (0);
-	if (!ft_strcmp(param[0], "camera:"))
-		return (add_camera(scene, param));
-	else if (!ft_strcmp(param[0], "sphere:"))
-		return (add_obj(&(scene->objects), param, 1));
-	else if (!ft_strcmp(param[0], "light:"))
-		return (add_light(&(scene->lights), param));
-	else if (!ft_strcmp(param[0], "plane:"))
-		return (add_obj(&(scene->objects), param, 2));
-	else if (!ft_strcmp(param[0], "cone:"))
-		return (add_obj(&(scene->objects), param, 3));
-	else if (!ft_strcmp(param[0], "cylinder:"))
-		return (add_obj(&(scene->objects), param, 4));
-	return (1);
+	int		i;
+
+	i = 0;
+	if (!str)
+		return ;
+	while (str[i] != NULL)
+	{
+		free(str[i]);
+		i++;
+	}
+	free(str);
 }
 
-int		init_mlx(t_rtv *rtv)
+int			add_object(t_rtv *scene, char **param)
+{
+	int		res;
+
+	res = 1;
+	if (!is_valid_str(param))
+		res = 0;
+	else if (!ft_strcmp(param[0], "camera:"))
+		res = add_camera(scene, param);
+	else if (!ft_strcmp(param[0], "sphere:"))
+		res = add_obj(&(scene->objects), param, 1);
+	else if (!ft_strcmp(param[0], "light:"))
+		res = add_light(&(scene->lights), param);
+	else if (!ft_strcmp(param[0], "plane:"))
+		res = add_obj(&(scene->objects), param, 2);
+	else if (!ft_strcmp(param[0], "cone:"))
+		res = add_obj(&(scene->objects), param, 3);
+	else if (!ft_strcmp(param[0], "cylinder:"))
+		res = add_obj(&(scene->objects), param, 4);
+	clean_split(param);
+	return (res);
+}
+
+int			init_mlx(t_rtv *rtv)
 {
 	if (!(rtv->mlx = mlx_init()))
 		return (0);
@@ -73,27 +92,11 @@ int		init_mlx(t_rtv *rtv)
 	return (1);
 }
 
-static void	clean_split(char **str)
-{
-	int		i;
-
-	i = 0;
-	if (!str)
-		return;
-	while (str[i] != NULL)
-	{
-		free(str[i]);
-		i++;
-	}
-	free(str);
-}
-
-int		get_data(char *filename, t_rtv *scene)
+int			get_data(char *filename, t_rtv *scene)
 {
 	int		fd;
 	int		ret;
 	char	*line;
-	char	**split_str;
 
 	fd = open(filename, O_RDONLY);
 	while (1)
@@ -105,19 +108,13 @@ int		get_data(char *filename, t_rtv *scene)
 			close(fd);
 			break ;
 		}
-		split_str = ft_strsplit(line, ' ');
-		if (ret == -1 || !add_object(scene, split_str))
+		if (ret == -1 || (ret != -1 &&
+		!add_object(scene, ft_strsplit(line, ' '))))
 		{
-			clean_split(split_str);
 			close(fd);
 			return (0);
 		}
-		clean_split(split_str);
 		free(line);
 	}
-	return 0;
-	if (!init_mlx(scene))
-		return (0);
-	return (1);
+	return (init_mlx(scene));
 }
-

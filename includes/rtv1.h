@@ -122,6 +122,6 @@ t_vec				vec_mult_num(const t_vec *vec, double num);
 int					add_obj(t_obj **obj, char **param, int type);
 int					get_plane_param(t_obj *obj, char **param);
 void				intersect_cone(t_rtv *rtv, t_vec *o, t_vec *d, t_obj *obj);
-int					closest_intersection(t_rtv *rtv, t_vec *o, t_vec *d, 
+int					closest_intersection(t_rtv *rtv, t_vec *o, t_vec *d,
 					double min);
 #endif
