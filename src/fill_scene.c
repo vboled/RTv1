@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "rtv1.h"
+#include <stdio.h>
 
 int			is_valid_str(char **str)
 {
@@ -92,7 +93,7 @@ int			init_mlx(t_rtv *rtv)
 	return (1);
 }
 
-int			get_data(char *filename, t_rtv *scene)
+int		get_data(char *filename, t_rtv *scene)
 {
 	int		fd;
 	int		ret;
@@ -118,3 +119,4 @@ int			get_data(char *filename, t_rtv *scene)
 	}
 	return (init_mlx(scene));
 }
+
